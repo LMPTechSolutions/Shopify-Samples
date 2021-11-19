@@ -1,0 +1,246 @@
+<script>
+// Product array
+  var productList = [];
+</script>
+
+<div id="CollectionSection-{{ section.id }}" class="featured-custom-collection">  
+	<div class="featured-custom-collection-left"></div>
+
+	<div class="featured-custom-collection-right">
+		<div class="featured-custom-collection-right-top">
+			<h2>{{ section.settings.title }}</h2>
+			<p>	{{ section.settings.sub_title }}	</p>
+			<button class="bundle-add-to-cart"> ADD 4 ITEMS TO CART </button>
+		</div>
+		<div class="featured-custom-collection-right-body">
+			{% for product in collections[section.settings.home_featured_products].products limit: 4 %}
+				{%- assign preview_image = product.featured_media.preview_image -%}
+
+        	{%- assign productOption = forloop.index -%}
+        
+        <script>
+        // Set product id on load
+          productList.push( "{{ product.first_available_variant.id }}" );
+          console.log("Productww", "{{product.first_available_variant.id}}");
+        </script>
+				<div class="product-item">
+					<div class="product-item-image">																
+						<img class="" src="{{ preview_image | img_url: '400x' }}" alt="{{ preview_image.alt | escape }}">													
+					</div>
+					<div class="product-item-text-area">
+						<div class=""><h3 class="h4">{{ product.title  | capitalize }}</h3> </div>					
+            <span>{{ product.price  | money }}</span>			
+						{% comment %} <div>
+							Finish: 
+							{%- for variant in product.variants -%}														
+								{% for option in variant.options %}
+									<button id="{{variant.id}}" class="product-option product-{{productOption}}" style="background: {{option}}"> </button>
+								{% endfor %}													
+							{%- endfor -%}					 
+						</div> {% endcomment %}
+						<a href="{{ product.url | within: collection }}" class="product-item-url"> View More</a>					
+					</div>
+					{% comment %} <hr> {% endcomment %}
+				</div>
+			{% endfor %}
+		</div>
+	</div>
+	
+</div>
+
+<style>
+	.featured-custom-collection{
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+	}
+	.featured-custom-collection-right{
+		padding: 30px;
+	}
+	button.bundle-add-to-cart {
+    background: #161616;
+    color: white;
+    width: 222px;
+    height: 39px;
+    font-weight: 600;
+	}
+	.featured-custom-collection-right .product-item{
+		display: grid;
+		grid-template-columns: 20% 1fr;
+	}
+	.product-item-text-area {
+		padding: 10px;
+    position: relative;
+	}
+	a.product-item-url {
+    position: absolute;
+    right: 0;
+    border: 0;
+	}
+  a.product-item-url:hover{
+    text-decoration: underline;
+  }
+	.featured-custom-collection-right .product-item {
+		border-left-color:transparent;
+		border-right-color:transparent;
+	}
+	.featured-custom-collection-right-top{
+		text-align: center;
+		margin-bottom: 30px;
+	}
+	.featured-custom-collection-left{
+		background: url( "{{ section.settings.left_image | img_url: '1024x' }}" );
+		background-repeat: no-repeat;
+		background-size: cover;
+	}
+	.product-item-image img{
+		max-width:100%;
+	}
+	.product-option {
+		
+		/* content: ""; */
+		width: 20px;
+		display: inline-block;
+		height: 20px;
+		padding: 5px;
+		box-shadow: 0 0 0 2px #000;
+	}
+	.product-item:before {
+		border-left-color: transparent;
+    	border-right-color: transparent; 
+	}
+</style>
+
+<script>
+$( document ).ready(function() {
+// Cart Queue Feature
+  Shopify.queue = [];
+  Shopify.moveAlong = function() {
+    if (Shopify.queue.length) {
+      var request = Shopify.queue.shift();
+      Shopify.addItem(request, Shopify.moveAlong);
+    } else {
+      document.location.href = '/cart';
+    }
+  };
+  Shopify.addItem = function(request, callback) {
+    var params = {
+      quantity: request.quantity,
+      id: request.id,
+    };
+    if(request.properties != false){
+      params.properties = request.properties;
+    }
+    console.log('params', params);
+    $.ajax({
+      type: 'POST',
+      url: '/cart/add.js',
+      dataType: 'json',
+      data: params,
+      success: function (textStatus, status) {
+        console.log(textStatus);
+        console.log(status)
+        callback();
+      },
+      error: function(xhr, textStatus, error) {
+        console.log(xhr.responseText);
+        console.log(xhr.statusText);
+        console.log(textStatus);
+        console.log(error);
+      }
+    });
+  }
+
+
+
+// Listeners
+  $('.product-option.product-1').on('click', function(){
+    productList[0] = $(this).attr('id');
+    console.log('list1', productList);
+
+  })
+    
+  $('.product-option.product-2').on('click', function(){
+    productList[1] = $(this).attr('id');
+    console.log('list2', productList);
+  })
+
+  $('.product-option.product-3').on('click', function(){
+    productList[2] = $(this).attr('id');
+    console.log('list3', productList);
+  })
+
+  $('.product-option.product-4').on('click', function(){
+    productList[3] = $(this).attr('id');
+    console.log('list4', productList);
+  })
+
+  $(".bundle-add-to-cart").on('click', function(){  
+    var productListProcessed = [
+      {
+        quantity:1,
+        id: productList[0]
+      },
+      {
+        quantity:1,
+        id: productList[1]
+      },
+      {
+        quantity:1,
+        id: productList[2]
+      },
+      {
+        quantity:1,
+        id: productList[3]
+      }
+    ];
+    console.log("button");
+    
+    
+    productListProcessed.forEach(function(product){
+      Shopify.queue.push(product);    
+    });
+    
+    Shopify.moveAlong();  
+    
+
+  })
+
+});
+</script>
+
+
+{% schema %}
+  {
+    "name": "Image & Collection",
+    "class": "index-section",
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Heading",
+        "default": "Shop The Look"
+      },
+			{
+        "type": "text",
+        "id": "sub_title",
+        "label": "Text",
+        "default": "Radiate brightness & warmth"
+      },
+			{
+			"id": "left_image",
+			"type": "image_picker",
+			"label": "Left Image"
+			},
+      {
+        "type": "collection",
+        "id": "home_featured_products",
+        "label": "Collection"
+      }
+    ],
+    "presets": [{
+      "name": "Image & Collection",
+      "category": "Collection"
+    }],
+    "blocks" : []
+  }
+{% endschema %} 
