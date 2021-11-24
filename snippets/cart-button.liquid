@@ -17,10 +17,19 @@
 
 <style>
   .collection-form{
-    display: flex;
+    display: grid;
     height: 60px;
+    justify-content: center;
   }
-  .collection_buy_button{
-    margin-right: 10px;
+  
+  @media (min-width: 769px){ 
+    .collection-form{
+      display: flex;
+    } 
+    .collection_buy_button{
+      margin-right: 10px;
+    }
   }
+  
+
 </style>
