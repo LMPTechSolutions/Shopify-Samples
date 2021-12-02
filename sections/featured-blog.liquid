@@ -1,0 +1,160 @@
+{%- liquid
+	assign blog = blogs[section.settings.blog]
+	assign view_more_text = section.settings.view-more-text | escape
+	assign blog_heading = section.settings.blog-heading | escape
+-%}
+
+<div class="featured-blog--root" style="{% render 'framework--background-colors', bg_color: section.settings.background-color %}" data-section-id="{{ section.id }}">
+	{% if blog_heading != blank %}
+		<h2 class="featured-blog--heading" data-item="section-heading">
+      <a href="{{ blog.url }}">{{ blog_heading }}</a>
+    </h2>
+	{% endif %}
+
+	<div class="featured-blog--body">
+		<div class="blog-custom-grid">
+			{% if blog.articles.size > 0 %}
+				<div class="blog-custom-grid-left">
+					{% for article in blog.articles limit: 5 %}						
+						<a class="featured-blog--item blog-custom-area" href="{{ article.url }}" style="background: url( {{ article.image | img_url: '450x450' }} );">
+							<p class="article-custom-title">{{ article.title | truncatewords: 3 }}</p>
+						</a>
+					{% endfor %}
+				</div>
+				<div class="blog-custom-grid-right">
+					{% for article in blog.articles limit: 1 %}
+						<div class="featured-blog--item" style="background: url( {{ article.image | img_url: '1024x' }} );">
+							<a href="{{ article.url }}">
+								<div class="article-custom-text">
+									<h3 class="featured-blog--item--heading">{{ article.title }}</h3>
+									<div class="article--author" data-item="caption">
+										{{ written_by_t }} {{ article.author | truncatewords: 3  }}
+									</div>          
+								</div>	
+							</a>
+						</div>					
+					{% endfor %}
+				</div>							
+							
+			{% endif %}
+		</div>
+
+		{% if view_more_text != blank %}
+			<div class="featured-blog--footer">
+				<a data-item="button" href="{{ blog.url }}">
+					<div>{{ view_more_text }}</div>
+				</a>
+			</div>
+		{% endif %}
+	</div>
+</div>
+
+<style>
+	.blog-custom-grid-left .featured-blog--item:nth-child(1) {
+		display: none;
+	}
+	.blog-custom-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+	}
+	.blog-custom-grid-left {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+		justify-items: center;
+		order: 2;
+	  //	grid-gap: 30px;
+	}
+	.blog-custom-grid-left .featured-blog--item,
+	.blog-custom-grid-right .featured-blog--item{
+		width: 100%;
+	}
+	.blog-custom-grid-left  .featured-blog--item--image img{
+		height: 220px;
+    object-fit: cover;
+    object-position: 80% -20%;
+	}
+	p.article-custom-title {
+    text-align: center;
+    color: #ffffff;
+    max-width: 170px;
+    background: #00000099;
+    height: 90px;
+    padding-top: 20px;
+		margin: auto;
+    margin-top: 70px;
+	}
+	.blog-custom-grid-left {
+    margin-right: 0px;
+		margin-top: 10px;
+	}
+	.blog-custom-grid-right {
+    height: 300px;
+		margin-left: 0px;
+	}		
+
+	
+	.blog-custom-grid-right .article-custom-text {
+    text-align: center;
+    padding-top: 80px;
+	}
+
+	.blog-custom-grid-right .featured-blog--item {
+		height: 300px;
+		background-size: cover !important;
+		background-repeat: no-repeat !important;
+		background-position: center center !important;
+	}		
+	@media (min-width: 969px){ 
+		.blog-custom-grid-right .featured-blog--item {
+			height: 500px;
+		}
+		.blog-custom-grid {
+			grid-template-columns: 1fr 1fr;
+		}
+		.blog-custom-grid-left {
+			order: 0;
+			margin-top: 0px;
+		}
+		.blog-custom-grid-right {
+			height: 500px;
+		}	
+	}
+
+
+</style>
+
+
+{% schema %}
+  {
+   "name": "Blog posts (Custom)",
+   "settings":[
+      
+			{
+				"id": "blog-heading",
+				"label": "Heading",
+				"type": "text",
+				"default": "Blog posts"
+			},
+			{
+				"id": "blog",
+				"label": "Choose blog",
+				"type": "blog"
+			},				
+			{
+				"id": "view-more-text",
+				"label": "View more text",
+				"type": "text",
+				"default": "View more"
+			}
+   ],
+	 "presets": [
+      {
+        "name": "Blog posts (Custom)",
+        "category": "Blog",
+				"settings": {
+					"blog": "News"
+				}
+      }
+    ]
+	}
+{% endschema %}
