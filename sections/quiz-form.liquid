@@ -1,0 +1,642 @@
+<div class="quiz-header">
+  <a href="/pages/subscription"><img src="https://cdn.shopify.com/s/files/1/1530/1561/files/back-icon.jpg?v=1634310556" alt=""></a>
+</div>
+
+<div id="subscription-area"></div>
+
+<style>  
+  .hide-step{
+    display:none;
+  }
+  .show-step{
+    display:block;
+    opacity: 1;
+  }
+  #subscription-area {
+    text-align: center;
+    min-height: 350px;
+  }
+  label:hover {
+    text-decoration: underline;
+  }
+  input:checked + label {
+    text-decoration: underline;
+  }
+  label p {
+    font-size: 1.6em;
+    Letter-spacing: 0;
+  }
+  .quiz-section-1 input[type="radio"],
+  .quiz-section-2 input[type="radio"],
+  .quiz-section-3 input[type="radio"],
+  .quiz-section-4 input[type="radio"],
+  .quiz-section-5 input[type="radio"]{
+    visibility:hidden;
+  }
+  .quiz-header {
+    height: 75px;
+    background: #FAEBD8;
+  }
+  .quiz-header img {
+    height: 75px;
+    margin-left: 20px;
+  }
+  h2.SectionHeader__Heading.Heading.u-h1 {
+      text-align: center;
+  }
+  .quiz-section-1 {
+    display: grid;
+    justify-items: center;
+    margin: auto;
+    grid-gap: 70px;
+    text-align: center;
+    font-size: 1.8em;
+    margin-bottom: 100px;
+  }
+
+
+  .quiz-section-2 {
+    display: grid;
+    justify-items: center;
+    margin: auto;
+    grid-gap: 70px;
+    text-align: center;
+    font-size: 1.8em;
+    margin-bottom: 100px;
+  }
+
+  .quiz-section-3 {
+    display: grid;
+    justify-items: center; 
+    grid-gap: 70px;
+    text-align: center;
+    font-size: 1.8em;
+    margin-bottom: 100px;
+  }
+  .quiz-section-4 {
+    display: grid;
+    justify-items: center;
+    margin: auto;
+    grid-gap: 70px;
+    text-align: center;
+  }
+  .quiz-section-4 button{
+    width: 247px;
+    height: 57px;    
+    color: #FFFFFF;
+    background: #200933;
+    font-size: 18px;
+    line-height: 21px;
+    letter-spacing: 0.19em;
+  }
+  .quiz-section-4 h3{
+    font-size: 36px;
+    line-height: 42px;
+    letter-spacing: 0.02em;
+    max-width: 340px;
+  }
+  .quiz-section-4 a, .quiz-section-5 a{
+    font-size: 18px;
+    line-height: 21px;
+    letter-spacing: 0.19em;
+    display: block;
+    margin: 25px 0;
+  }
+
+   .quiz-section-4 a:hover, .quiz-section-5 a:hover{
+         text-decoration: underline;
+   }
+
+  .quiz-section-5 {
+    display: grid;
+    justify-items: center;
+    grid-template-columns: 1fr 1fr 1fr;
+    margin: auto;
+    grid-gap: 70px;
+    text-align: center;
+  }
+  .quiz-section-5 input { 
+    background: #200933;
+    padding: 8px 18px;
+    color: #F4F3F4;
+        width: 247px;
+    height: 57px;
+    color: #FFFFFF;
+    background: #200933;
+    font-size: 18px;
+    line-height: 21px;
+    letter-spacing: 0.19em;
+  }
+  @media screen and (min-width: 1140px) {
+    .quiz-section-1 {
+      display: grid;
+      justify-items: center;
+      grid-template-columns: 1fr 1fr;
+    }
+    .quiz-section-2 {
+      display: grid;
+      justify-items: center;
+      grid-template-columns: 1fr 1fr;
+    }
+    .quiz-section-3 {
+      display: grid;
+      justify-items: center;
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+    .quiz-section-4 {
+      display: grid;
+      justify-items: center;
+      grid-template-columns: 1fr 1fr;
+    }
+    .quiz-section-5 {
+      display: grid;
+      justify-items: center;
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+  } 
+
+
+
+
+  div#shopify-section-quiz-form section:nth-child(5){
+    background: #F9F5F2;
+    text-align: center;
+    padding-top: 50px;
+    padding-bottom: 50px;
+  }
+  
+
+  .product-selected-area {
+    background: #F9F5F2;
+    text-align: center;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    margin: 0;
+  }
+
+  .featured-selected-addons {
+      padding: 50px 0;
+      text-align: center;
+      margin: 0;
+  }
+
+  .feature-selected-reset {
+    background: #FAEBD8;
+     padding: 50px 0;
+      text-align: center;
+      margin: 0;
+  }
+
+    .featured-selected-addons button{
+    width: 247px;
+    height: 57px;
+    color: #FFFFFF;
+    background: #200933;
+  }
+
+  .feature-selected-reset button {
+    background: #FFFFFF;
+    color: #200933;
+        width: 247px;
+    height: 57px;
+    border: 1px solid #363636;
+  }
+
+  div#shopify-section-quiz-form section:nth-child(7) button {
+    width: 247px;
+    height: 57px;
+    border: 1px solid #363636;
+    background: #FFFFFF;
+  }
+  div#shopify-section-quiz-form section:nth-child(7) {
+    background: #FAEBD8;
+    height: 300px;
+    padding-top: 50px;
+    text-align: center;
+    margin-bottom: -11%;
+  }
+
+  div#shopify-section-quiz-form  h2 {
+    text-transform: inherit;
+    font-size: 48px;
+    line-height: 56px;
+    letter-spacing: 0.05em;
+  }
+
+  div#shopify-section-quiz-form .quiz-section-2 h3 {
+     font-size: 1.6em;
+    Letter-spacing: 0;
+  }
+
+  img.section-4-header-img {
+    height: 60px;
+    margin: auto;
+  }
+  div#shopify-section-quiz-form .quiz-section-1 div,
+  div#shopify-section-quiz-form .quiz-section-2 div {
+    width: 355px;
+    height: 355px;
+    background: #FFFCF7;
+    border: 1px solid;
+  }
+  div#shopify-section-quiz-form .quiz-section-3 div {
+    max-width: 355px;
+    max-height: 355px;
+    background: #FFFCF7;
+    border: 1px solid;
+  }
+
+
+  .quiz-section-3 div{
+    padding: 70px 0;
+  }
+
+  .quiz-section-2 div{
+    padding-top: 70px;
+  }
+  .quiz-section-2 div p {
+    font-size: 0.7em;
+    width: 290px;
+    margin: auto;
+    line-height: 24px;
+    letter-spacing: 0.05em;
+  }
+  .quiz-section-2 h3 {
+    margin-bottom: 10px;
+  }
+  .quiz-section-1 img{
+    width: 50%;
+    margin-top: 70px;
+  }
+  .quiz-section-3 img {
+    width: 50%;
+
+  }
+  .quiz-content {
+    margin-top: 80px;
+  }
+
+  .quiz-section-5 h3{
+    font-size: 26px;
+    line-height: 45px;
+  }
+
+
+</style>
+
+<script>
+  /* ======== Objects ======== */
+		let selectedData = {};
+		let quizData = { 
+      image: "https://cdn.shopify.com/s/files/1/1530/1561/files/section4-img1.jpg",
+      title: "The Printed Bundle of New & Full Moon Workbooks",
+      url: "Update",
+      id: "Update",
+      quantity: 1
+    };
+    let stepArray = [
+      `<div class="step Section Section--spacingNormal" id="section-{{ section.id }}">
+        <div class="Container"> 
+          <h2 class="SectionHeader__Heading Heading u-h1">How do you like <br>to read content?</h2>
+          <div class="quiz-section-1">     
+            <div>
+              <input id="package-printed" type="radio" name="package-type" value="Printed" class="quiz-label"/>
+              <label class="package-packs-label" for="package-printed">
+                <img src="https://cdn.shopify.com/s/files/1/1530/1561/files/section1-icon1.jpg" alt=""/>
+                <p>Printed</p>
+              </label>     
+            </div>
+            <div>   
+              <input id="package-digital" type="radio" name="package-type" value="Digital" class="quiz-label"/>
+              <label class="package-vip-label" for="package-digital">            
+                <img src="https://cdn.shopify.com/s/files/1/1530/1561/files/section1-icon2.jpg" alt=""/>
+                <p>Digital</p>
+              </label> 
+            </div>       
+          </div>
+        </div>
+      </div>`,
+      `<div class="step Section Section--spacingNormal" id="section-{{ section.id }}">
+        <div class="Container"> 
+          <h2 class="SectionHeader__Heading Heading u-h1">What is your level of <br> commitment?</h2>
+          <div class="quiz-section-2">
+            <div>
+              <input type="radio" name="commitment-level" class="quiz-label" id="type-monthly" value="Monthly"/>
+              <label for="type-monthly">
+                <h3>Monthly</h3>
+                <p>I’d rather pay monthly for my books.</p>
+              </label>
+            </div>
+            <div>
+              <input type="radio" name="commitment-level" id="type-yearly" class="quiz-label" value="Yearly"/>
+              <label for="type-yearly">
+                <h3>Yearly</h3>
+                <p>I’d rather save more & pay for my year of books all at once!</p>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>`,
+      `<div class="step Section Section--spacingNormal" id="section-{{ section.id }}">
+        <div class="Container"> 
+          <h2 class="SectionHeader__Heading Heading u-h1">New or Full Moon?</h2>
+          <div class="quiz-section-3">
+            <div>
+              <input type="radio" name="moon" id="New-Moon" class="quiz-label" value="New Moon"/>
+              <label for="New-Moon">
+                <img src="https://cdn.shopify.com/s/files/1/1530/1561/files/section3-icon1.jpg" alt=""/>
+                <p>New Moon</p>
+              </label>
+            </div>
+            <div>
+              <input type="radio" name="moon" id="Full-Moon" class="quiz-label" value="Full Moon"/>
+              <label for="Full-Moon">
+                <img src="https://cdn.shopify.com/s/files/1/1530/1561/files/section3-icon2.jpg" alt=""/>
+                <p>Full Moon</p>
+              </label>
+            </div>
+            <div>
+              <input type="radio" name="moon" id="Both-of-Course" class="quiz-label" value="Both of Course"/>
+              <label for="Both-of-Course">
+                <img src="https://cdn.shopify.com/s/files/1/1530/1561/files/section3-icon3.jpg" alt=""/>
+                <p>Both of Course</p>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>`
+    ];
+    let stateObj = {
+      step: 1 // 1,2,3,4,5
+    };
+    let quizAnswerCollection = [];
+ 
+
+  /* ======== Functions ======== */
+		function DataReport(){		
+			console.log("Data Report");
+			console.log("----------------------");
+			console.log("Quiz Object: ", quizData);
+			console.log("Selected Object: ", selectedData);
+      console.log("Quiz Answer Object: ", quizAnswerCollection);
+			console.log("____________________");		
+	  };
+    function CustomReport(value){		
+			console.log("Custom Report");
+			console.log("----------------------");
+      console.log("Custom Data", value);
+			console.log("____________________");		
+		};
+		function addItemToCart (quizData) {
+			data = {
+				"quantity": quizData.quantity,
+				"id": quizData.id
+			} 
+      CustomReport(data);
+			jQuery.ajax({
+				type: 'POST',
+				url: '/cart/add.js',
+				data: data,
+				dataType: 'json',
+        error: function (request, error) {
+          console.log(arguments);
+          alert(" Can't do because: " + error);
+        },
+				success: function() { 
+					window.location.href = '/cart'; 
+				}
+			});
+			//window.location = '/checkout';
+		}; 
+    function startOver(){
+      // clear steps
+      jQuery("#subscription-area .step").hide();
+
+      // clear objects
+      quizData = {
+        quantity: 1
+      };
+      selectedData = {};
+      stateObj = {
+        step: 1
+      };
+
+      // add fist step      
+      jQuery(stepArray[0]).appendTo("#subscription-area");
+
+      // Run Report
+      DataReport();
+    }
+
+  /* ======== Listener ======== */
+    $(document).on('click', 'input', function() {
+      /* == Set Variables == */
+        var val = jQuery(this).attr("value");
+				var key = jQuery(this).attr("name");
+				selectedData[key] = val; 
+      /* == Set Quiz Object == */        
+        if(selectedData["package-type"] === "Digital"){                   
+          if( selectedData["commitment-level"] === 'Monthly' ){
+            if( selectedData["moon"] === 'New Moon' ) {
+              quizData.title = quizAnswerCollection[0].title;
+              quizData.image = quizAnswerCollection[0].image;
+              quizData.id = quizAnswerCollection[0].id;
+              quizData.url = quizAnswerCollection[0].url;
+            }
+            if( selectedData["moon"] === 'Full Moon' ) {
+              quizData.title = quizAnswerCollection[1].title;
+              quizData.image = quizAnswerCollection[1].image;
+              quizData.id = quizAnswerCollection[1].id;
+              quizData.url = quizAnswerCollection[1].url;
+            }
+            if( selectedData["moon"] === 'Both of Course' ) {
+              quizData.title = quizAnswerCollection[2].title;
+              quizData.image = quizAnswerCollection[2].image;
+              quizData.id = quizAnswerCollection[2].id;
+              quizData.url = quizAnswerCollection[2].url;
+            }
+          }
+          if( selectedData["commitment-level"] === 'Yearly' ){
+            if( selectedData["moon"] === 'New Moon' ) {
+              quizData.title = quizAnswerCollection[3].title;
+              quizData.image = quizAnswerCollection[3].image;
+              quizData.id = quizAnswerCollection[3].id;
+              quizData.url = quizAnswerCollection[3].url;
+            }
+            if( selectedData["moon"] === 'Full Moon' ) {
+              quizData.title = quizAnswerCollection[4].title;
+              quizData.image = quizAnswerCollection[4].image;
+              quizData.id = quizAnswerCollection[4].id;
+              quizData.url = quizAnswerCollection[4].url;
+            }
+            if( selectedData["moon"] === 'Both of Course' ) {
+              quizData.title = quizAnswerCollection[5].title;
+              quizData.image = quizAnswerCollection[5].image;
+              quizData.id = quizAnswerCollection[5].id;
+              quizData.url = quizAnswerCollection[5].url;
+            }
+          }
+        }
+        if( selectedData["package-type"] === "Printed") {
+          if( selectedData["commitment-level"] === 'Monthly' ){
+            if( selectedData["moon"] === 'New Moon' ) {
+              quizData.title = quizAnswerCollection[6].title;
+              quizData.image = quizAnswerCollection[6].image;
+              quizData.id = quizAnswerCollection[6].id;
+              quizData.url = quizAnswerCollection[6].url;
+            }
+            if( selectedData["moon"] === 'Full Moon' ) {
+              quizData.title = quizAnswerCollection[7].title;
+              quizData.image = quizAnswerCollection[7].image;
+              quizData.id = quizAnswerCollection[7].id;
+              quizData.url = quizAnswerCollection[7].url;
+            }
+            if( selectedData["moon"] === 'Both of Course' ) {
+              quizData.title = quizAnswerCollection[8].title;
+              quizData.image = quizAnswerCollection[8].image;
+              quizData.id = quizAnswerCollection[8].id;
+              quizData.url = quizAnswerCollection[8].url;
+            }
+          }
+          if( selectedData["commitment-level"] === 'Yearly' ){
+            if( selectedData["moon"] === 'New Moon' ) {
+              quizData.title = quizAnswerCollection[9].title;
+              quizData.image = quizAnswerCollection[9].image;
+              quizData.id = quizAnswerCollection[9].id;
+              quizData.url = quizAnswerCollection[9].url;
+            }
+            if( selectedData["moon"] === 'Full Moon' ) {
+              quizData.title = quizAnswerCollection[10].title;
+              quizData.image = quizAnswerCollection[10].image;
+              quizData.id = quizAnswerCollection[10].id;
+              quizData.url = quizAnswerCollection[10].url;
+            }
+            if( selectedData["moon"] === 'Both of Course' ) {
+              quizData.title = quizAnswerCollection[11].title;
+              quizData.image = quizAnswerCollection[11].image;
+              quizData.id = quizAnswerCollection[11].id;
+              quizData.url = quizAnswerCollection[11].url;
+            }
+          }
+        }  
+        
+        console.log("quizData 1", quizData);
+        
+        stepArray[3] = `
+          <div class="step">
+            <div class="Section Section--spacingNormal product-selected-area" id="section-{{ section.id }}">
+              <div class="Container"> 
+                <img class="section-4-header-img" src="https://cdn.shopify.com/s/files/1/1530/1561/files/section4-icon1.jpg" alt="">
+                <h2 class="SectionHeader__Heading Heading u-h1">Based on your answers we think you’ll love...</h2>
+                <div class="quiz-section-4">
+                  <div>
+                    <img src="${quizData.image}" alt=""/>
+                  </div>
+                  <div class="quiz-content">
+                    <h3> ${quizData.title} </h3>
+                    <a href="${quizData.url}">LEARN MORE</a>
+                    <button class="sub-add-to-cart">ADD TO CART</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="Section Section--spacingNormal featured-selected-addons" id="section-{{ section.id }}">
+              <div class="Container "> 
+                <h2 class="SectionHeader__Heading Heading u-h1">You can also try these...</h2>
+                <div class="quiz-section-5">
+                  {% for product in collections['quiz'].products %}
+                    <div>                    
+                      <img src="{{ product | img_url: '1024x' }}" alt=""/>
+                      <h3>{{ product.title | escape  }} The Printed New Moon</h3>
+                      <a href="{{ product.url }}">LEARN MORE</a>
+                      <form method="post" action="/cart/add">
+                        <input type="hidden" name="id" value="{{ product.variants.first.id }}" />
+                        <input type="submit" value="Add to cart" class="btn" />
+                      </form>
+                    </div>
+                  {% endfor %}                  
+                 
+                </div>
+              </div>
+            </div>
+
+            <div class="Section Section--spacingNormal feature-selected-reset" id="section-{{ section.id }}">
+              <div class="Container"> 
+                <h2 class="SectionHeader__Heading Heading u-h1">Retake the quiz!</h2>
+                <a href="/pages/subscription"><button>GO BACK</button></a>
+              </div>
+            </div> 
+          </div>`;
+
+       
+
+      /* == Next Step Feature == */
+        // Clear Currebt Steps 
+        jQuery("#subscription-area .step").hide();
+
+        // Add Next Step
+        switch (stateObj.step) {
+          case 1:
+            jQuery(stepArray[1]).appendTo("#subscription-area");
+            break;
+          case 2:
+            jQuery(stepArray[2]).appendTo("#subscription-area");
+            break;
+          case 3:
+          
+            jQuery(stepArray[3]).appendTo("#subscription-area");
+            break;  
+        };       
+
+        if (stateObj.step < 5) stateObj.step ++;     
+        
+			/* == Run Script Report == */
+		  DataReport();
+
+			
+		});
+
+    $(document).on('click', '.sub-add-to-cart', function(){
+      addItemToCart(quizData);
+      // window.location.replace("/cart");
+    });   
+
+    $(document).on('click', '#reset-steps', function(){
+      startOver();
+    });  
+
+  /* ======== On Load ======== */  
+    jQuery(stepArray[0]).appendTo("#subscription-area");    
+    {% for product in collections['quiz-answers'].products %}
+      var productVariable = {
+        title: "{{ product.title | escape  }}",
+        price: "{{ product.price | money }}",
+        image: "{{ product | img_url: '1024x' }}",
+        url: "{{ product.url }}",
+        id: "{% for variant in product.variants limit:1%}{{variant.id}}{% endfor%}"
+      };
+      quizAnswerCollection.push(productVariable);
+    {% endfor %}
+
+    DataReport();
+
+</script>
+
+{% schema %}
+  {
+    "name": "Subscription Area",
+    "settings": [
+      {
+        "type": "collection",
+        "id": "products_featured_collection_1",
+        "label": "Quiz Answer Collections"
+      },                 
+      {
+        "type": "collection",
+        "id": "products_featured_collection_2",
+        "label": "Featured Collection"
+      }
+    ]
+  }
+{% endschema %}
