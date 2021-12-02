@@ -1,0 +1,397 @@
+<div name="coffeesampler" class="container" id="coffee-sampler">
+  <div class="sampler-bar">
+    <div class="bar-center"> 
+      <p>
+        <span class="count-sampler">0</span>&nbsp;&nbsp; of &nbsp;&nbsp;<span class="total-sampler">10</span>&nbsp; Selected &nbsp;
+      </p>
+      <button id='add-to-cart-sampler-button' type="submit" name="add" class="action_button add_to_cart" data-label="Add to Cart" disabled> 
+        <span class="text">Add to Cart</span> 
+      </button>
+      <span class="sample-price"> $13.99 </span>
+    </div>  
+  </div>
+  
+  <div class="sixteen page clearfix header-sampler">  
+    <h1>
+      {{ page.title }}
+    </h1> 
+    <p class="page-content">
+      {{ page.content}}
+    </p>  
+  </div>
+  
+  <h2 id='single-blends5' class="line-background flav-col-1"><span>Single Origin & Blends</span></h2>
+  <div class='sampler-products-grid'></div>
+
+  <h2 id='flavored4' class="line-background flav-col-2"><span>Flavored</span></h2>   
+  <div class='sampler-products-grid-2'></div>
+
+  <h2 id='best-sellers' class="line-background flav-col-4"><span>Holiday</span></h2>
+  <div class='sampler-products-grid-3'></div>  
+</div>
+
+<script>
+/*------------------------------------*\
+  #Product Sampler 
+\*------------------------------------*/
+  if ($('#coffee-sampler')) {
+    /** Set samplers product **/
+      var samplerNonFlavored = [
+        {
+          name: 'Nicaraguan Rainforest FTO',
+          url: 'https://cdn.shopify.com/s/files/1/0004/2860/5446/files/Schuil_NonFlavored_Nicaraguan-Rainforest-FTO.png?9595175010051786649',
+          quantity: 0
+        },
+        {
+          name: 'Sumatran FTO',
+          url: 'https://cdn.shopify.com/s/files/1/0004/2860/5446/files/Schuil_NonFlavored_Sumatran-FTO.png?9595175010051786649',
+          quantity: 0
+        },
+        {
+          name: 'Northwest Dark',
+          url: 'https://cdn.shopify.com/s/files/1/0004/2860/5446/files/Schuil_NonFlavored_Northwest-Dark.png?9595175010051786649',
+          quantity: 0
+        },
+        {
+          name: 'GuatemalanFTO',
+          url: 'https://cdn.shopify.com/s/files/1/0004/2860/5446/files/Schuil_NonFlavored_Guatemalan-FTO.png?9595175010051786649',
+          quantity: 0
+        },
+        {
+          name: 'Kona Hawaii Decaf.png ',
+          url: 'https://cdn.shopify.com/s/files/1/0004/2860/5446/files/Schuil_NonFlavored_Kona-Hawaii_Decaf.png?9595175010051786649',
+          quantity: 0
+        },
+        {
+          name: 'Seattle',
+          url: 'https://cdn.shopify.com/s/files/1/0004/2860/5446/files/Schuil_NonFlavored_Seattle.png?9595175010051786649',
+          quantity: 0
+        },
+        {
+          name: 'Kona Hawaii',
+          url: 'https://cdn.shopify.com/s/files/1/0004/2860/5446/files/Schuil_NonFlavored_Kona-Hawaii.png?9595175010051786649',
+          quantity: 0
+        },
+        {
+          name: '100 Columbian Decaf',
+          url: 'https://cdn.shopify.com/s/files/1/0004/2860/5446/files/Schuil_NonFlavored_100-Columbian_Decaf_eceff194-2341-4b26-a729-b5938522d08f.png?9595175010051786649',
+          quantity: 0
+        },
+        {
+          name: '100 Columbian',
+          url: 'https://cdn.shopify.com/s/files/1/0004/2860/5446/files/Schuil_NonFlavored_100-Columbian.png?9595175010051786649',
+          quantity: 0
+        },
+        {
+          name: 'Bed Breakfast Decaf',
+          url: 'https://cdn.shopify.com/s/files/1/0004/2860/5446/files/Schuil_NonFlavored_Bed_Breakfast_Decaf.png?9595175010051786649',
+          quantity: 0
+        },
+        {
+          name: 'Bed Breakfast',
+          url: 'https://cdn.shopify.com/s/files/1/0004/2860/5446/files/Schuil_NonFlavored_Bed_Breakfast.png?9595175010051786649',
+          quantity: 0
+        },
+        {
+          name: 'Captains Choice',
+          url: 'https://cdn.shopify.com/s/files/1/0004/2860/5446/files/Schuil_NonFlavored_Captains-Choice.png?9595175010051786649',
+          quantity: 0
+        },
+        {
+          name: 'French Roast',
+          url: 'https://cdn.shopify.com/s/files/1/0004/2860/5446/files/Schuil_NonFlavored_French-Roast.png?9595175010051786649',
+          quantity: 0
+        },
+        {
+          name: 'Columbian FTO',
+          url: 'https://cdn.shopify.com/s/files/1/0004/2860/5446/files/Schuil_NonFlavored_Columbian-FTO.png?9595175010051786649',
+          quantity: 0
+        },
+      ]
+      var samplerFlavored = [
+        {
+          name: 'Irish Creme',
+          url: 'https://cdn.shopify.com/s/files/1/0004/2860/5446/files/Schuil_Flavored_Irish-Creme.png?9595175010051786649',
+          quantity: 0
+        },
+        {
+          name: 'Mackinac Island Fudge',
+          url: 'https://cdn.shopify.com/s/files/1/0004/2860/5446/files/Schuil_Flavored_Mackinac-Island-Fudge.png?9595175010051786649',
+          quantity: 0
+        },
+        {
+          name: 'Michigan Black Raspberry',
+          url: 'https://cdn.shopify.com/s/files/1/0004/2860/5446/files/Schuil_Flavored_Michigan-Black-Raspberry.png?9595175010051786649',
+          quantity: 0
+        },
+        {
+          name: 'Michigan Maple',
+          url: 'https://cdn.shopify.com/s/files/1/0004/2860/5446/files/Schuil_Flavored_Michigan-Maple.png?9595175010051786649',
+          quantity: 0
+        },
+        {
+          name: 'Michigan Sweet Cherry',
+          url: 'https://cdn.shopify.com/s/files/1/0004/2860/5446/files/Schuil_Flavored_Michigan-Sweet-Cherry.png?9595175010051786649',
+          quantity: 0
+        },
+        {
+          name: 'Mocha Latte',
+          url: 'https://cdn.shopify.com/s/files/1/0004/2860/5446/files/Schuil_Flavored_Mocha-Latte.png?9595175010051786649',
+          quantity: 0
+        },
+        {
+          name: 'Peanut Butter Cup',
+          url: 'https://cdn.shopify.com/s/files/1/0004/2860/5446/files/Schuil_Flavored_Peanut-Butter-Cup.png?9595175010051786649',
+          quantity: 0
+        },
+        {
+          name: 'Salted Caramel',
+          url: 'https://cdn.shopify.com/s/files/1/0004/2860/5446/files/Schuil_Flavored_Salted-Caramel.png?9595175010051786649',
+          quantity: 0
+        },
+        {
+          name: 'Smores Campfire Cookie',
+          url: 'https://cdn.shopify.com/s/files/1/0004/2860/5446/files/Schuil_Flavored_S_mores-Campfire-Cookie.png?9595175010051786649',
+          quantity: 0
+        },
+        {
+          name: 'Apple Crisp',
+          url: 'https://cdn.shopify.com/s/files/1/0004/2860/5446/files/Schuil_Flavored_Apple-Crisp_b4b19cb9-f15d-42e7-b8d5-18572ffdba37.png?9595175010051786649',
+          quantity: 0
+        },
+        {
+          name: 'Blueberry Crumble',
+          url: 'https://cdn.shopify.com/s/files/1/0004/2860/5446/files/Schuil_Flavored_Blueberry-Crumble.png?9595175010051786649',
+          quantity: 0
+        },
+        {
+          name: 'White Heather',
+          url: 'https://cdn.shopify.com/s/files/1/0004/2860/5446/files/Schuil_Flavored_White-Heather.png?9595175010051786649',
+          quantity: 0
+        },
+        {
+          name: 'Caramel Creme',
+          url: 'https://cdn.shopify.com/s/files/1/0004/2860/5446/files/Schuil_Flavored_Caramel-Creme.png?9595175010051786649',
+          quantity: 0
+        },
+        {
+          name: 'Caramel Creme Decaf',
+          url: 'https://cdn.shopify.com/s/files/1/0004/2860/5446/files/Schuil_Flavored_Caramel-Creme_Decaf.png?9595175010051786649',
+          quantity: 0
+        },
+        {
+          name: 'Peaches-N-Cream',
+          url: 'https://cdn.shopify.com/s/files/1/0004/2860/5446/files/Schuil_Flavored_Peaches-N-Cream.png?9595175010051786649',
+          quantity: 0
+        },
+        {
+          name: 'Chocolate Marshmallow',
+          url: 'https://cdn.shopify.com/s/files/1/0004/2860/5446/files/Schuil_Flavored_Chocolate-Marshmallow.png?9595175010051786649',
+          quantity: 0
+        },
+        {
+          name: 'Chocolate Raspberry',
+          url: 'https://cdn.shopify.com/s/files/1/0004/2860/5446/files/Schuil_Flavored_Chocolate-Raspberry.png?9595175010051786649',
+          quantity: 0
+        },
+        {
+          name: 'Chocolate Vanilla Twist',
+          url: 'https://cdn.shopify.com/s/files/1/0004/2860/5446/files/Schuil_Flavored_Chocolate_Vanilla-Twist.png?9595175010051786649',
+          quantity: 0
+        },
+        {
+          name: 'Hazelnut Creme Decaf',
+          url: 'https://cdn.shopify.com/s/files/1/0004/2860/5446/files/Schuil_Flavored_Hazelnut-Creme_Decaf.png?9595175010051786649',
+          quantity: 0
+        },
+        {
+          name: 'French Vanilla Creme',
+          url: 'https://cdn.shopify.com/s/files/1/0004/2860/5446/files/Schuil_Flavored_French-Vanilla-Creme.png?9595175010051786649',
+          quantity: 0
+        },
+        {
+          name: 'Hazelnut Creme',
+          url: 'https://cdn.shopify.com/s/files/1/0004/2860/5446/files/Schuil_Flavored_Hazelnut-Creme.png?9595175010051786649',
+          quantity: 0
+        },
+      ]
+      var samplerHoliday = [ 
+        {
+          name: 'Nutcracker Sweet',
+          url: 'https://cdn.shopify.com/s/files/1/0004/2860/5446/files/Nutcracker_Sweet.png?3936241326469218453',
+          quantity: 0
+        },
+        {
+          name: 'Decaf Holiday Blend',
+          url: 'https://cdn.shopify.com/s/files/1/0004/2860/5446/files/Decaf_Holiday_Blend.png?3936241326469218453',
+          quantity: 0
+        },
+        {
+          name: 'Fireside Blend',
+          url: 'https://cdn.shopify.com/s/files/1/0004/2860/5446/files/Fireside_Blend.png?3936241326469218453',
+          quantity: 0
+        },
+        {
+          name: 'Holiday Blend',
+          url: 'https://cdn.shopify.com/s/files/1/0004/2860/5446/files/Holiday_Blend_c72fe98f-206b-4acc-af6d-6c1be8e1f9cd.png?3936241326469218453',
+          quantity: 0
+        },
+        {
+          name: 'Candy Cane',
+          url: 'https://cdn.shopify.com/s/files/1/0004/2860/5446/files/Candy_Cane.png?3936241326469218453',
+          quantity: 0
+        },
+        {
+          name: 'Gingerbread Man',
+          url: 'https://cdn.shopify.com/s/files/1/0004/2860/5446/files/Gingerbread_Man.png?3936241326469218453',
+          quantity: 0
+        },
+        {
+          name: 'Cinnamon Stick',
+          url: 'https://cdn.shopify.com/s/files/1/0004/2860/5446/files/Cinnamon_Stick.png?3936241326469218453',
+          quantity: 0
+        },
+      ]
+
+    /** Print sampler product on the screen **/
+      var selectedPackets = {}
+      var samplerListDisplay = '';
+      for(x = 0; x < samplerNonFlavored.length; x++) {
+        var elements = `
+          <div class='sampler-product' id=sampler-product-${x+1} >
+            <img src=${samplerNonFlavored[x].url}/>
+            <p>${samplerNonFlavored[x].name}</p>
+            <form>
+              <div class='product-quantity-box'>                             
+                <span class='ss-icon product-minus js-change-quantity' data-func='minus'><span class='icon-minus'></span></span>
+                <input type='number' min='0' size='2' class='quantity' name='updates[]' id='updates' value='0' data-line-id='' disabled/>                      
+                <span class='ss-icon product-plus js-change-quantity' data-func='plus'><span class='icon-plus'></span></span>                        
+              </div>
+            </form>
+          </div>
+        `; 
+        if (samplerNonFlavored[x].name) {
+          samplerListDisplay += elements;
+        }   
+      } 
+      $('.sampler-products-grid').append(samplerListDisplay);
+
+      var samplerListDisplay2 = '';
+      for(x = 0; x < samplerFlavored.length; x++) {
+        var elements = `
+          <div class='sampler-product' id=sampler-product-${x+1} >
+            <img src=${samplerFlavored[x].url}/>
+            <p>${samplerFlavored[x].name}</p>
+            <form>
+              <div class='product-quantity-box'>                             
+                <span class='ss-icon product-minus js-change-quantity' data-func='minus'><span class='icon-minus'></span></span>
+                <input type='number' min='0' size='2' class='quantity' name='updates[]' id='updates' value='0' data-line-id='' disabled/>                      
+                <span class='ss-icon product-plus js-change-quantity' data-func='plus'><span class='icon-plus'></span></span>                        
+              </div>
+            </form>
+          </div>
+        `; 
+        if (samplerFlavored[x].name) {
+          samplerListDisplay2 += elements;
+        }   
+      } 
+      $('.sampler-products-grid-2').append(samplerListDisplay2);
+
+      var samplerListDisplay3 = '';
+      for(x = 0; x < samplerHoliday.length; x++) {
+        var elements = `
+          <div class='sampler-product' id=sampler-product-${x+1} >
+            <img src=${samplerHoliday[x].url}/>
+            <p>${samplerHoliday[x].name}</p>
+            <form>
+              <div class='product-quantity-box'>                             
+                <span class='ss-icon product-minus js-change-quantity' data-func='minus'><span class='icon-minus'></span></span>
+                <input type='number' min='0' size='2' class='quantity' name='updates[]' id='updates' value='0' data-line-id='' disabled/>                      
+                <span class='ss-icon product-plus js-change-quantity' data-func='plus'><span class='icon-plus'></span></span>                        
+              </div>
+            </form>
+          </div>
+          `; 
+          if (samplerHoliday[x].name) {
+          samplerListDisplay3 += elements;
+          }   
+      } 
+      $('.sampler-products-grid-3').append(samplerListDisplay3);
+    
+    /** Product quantity listener **/
+      $('input.quantity').on('change', function(){
+        var productQuantity = 0;
+        var packetList = {
+          'Product Name': 'Quantity',
+        };
+        var currentItem = $(this).parent().parent().parent().find("p").text();
+        var currentQuantity = $(this).val();
+        
+        samplerNonFlavored.forEach(function(entry) {
+          if (entry.name == currentItem){
+            entry.quantity = Number(currentQuantity);
+          }
+          if (entry.quantity >= 1){  
+            productQuantity +=  entry.quantity;
+            packetList[entry.name] = entry.quantity;
+          }          
+        });  
+
+        samplerFlavored.forEach(function(entry) {
+          if (entry.name == currentItem){
+            entry.quantity = Number(currentQuantity) ;        
+          } 
+          if (entry.quantity >= 1){  
+            productQuantity +=  entry.quantity;
+            packetList[entry.name] = entry.quantity;
+          }       
+        });  
+
+        samplerHoliday.forEach(function(entry) {
+          if (entry.name == currentItem){
+            entry.quantity = Number(currentQuantity) ;        
+          }
+          if (entry.quantity >= 1){  
+            productQuantity +=  entry.quantity;  
+            packetList[entry.name] = entry.quantity;    
+          }        
+        });  
+
+        $('.count-sampler').text(productQuantity);
+
+        if (productQuantity==10) {
+          $(".sampler-bar .bar-center button").prop('disabled', false);
+          $(".product-plus").prop('disabled', true);   
+        } else {
+          $(".sampler-bar .bar-center button").prop('disabled', true);
+          $(".product-plus").prop('disabled', false);
+        }   
+
+        selectedPackets = packetList;
+      })
+
+    /** Add sampler product to cart **/
+      function addSamplerItemToCart (variant_id, quantity) {
+        data = {
+          "quantity": quantity,
+          "id": variant_id,
+          properties: selectedPackets,
+        }
+        jQuery.ajax({
+          type: 'POST',
+          url: '/cart/add.js',
+          data: data,
+          dataType: 'json',
+          success: function() { 
+            window.location.href = '/cart'; 
+          }
+        });
+      }
+      $('#add-to-cart-sampler-button').click(function(){
+          addSamplerItemToCart(15844370710602 , 1, selectedPackets);
+      })
+  }
+</script>
+  
+
+  

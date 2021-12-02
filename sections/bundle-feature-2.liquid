@@ -1,0 +1,1296 @@
+/*============================================================================*\
+	# Bundle View
+\*============================================================================*/
+<div class="custom-product-form">
+	{% assign variant = product.selected_or_first_available_variant %}
+	{% form 'product', product %} 
+		<fieldset>
+			<a class='custom-product-escape' href='/'> X</a>      
+			<div class="five columns medium-down--one-whole {% if section.settings.product_images_position == 'left' %}alpha{% else %}omega{% endif %}">
+				{% include 'product-images' %}
+			</div>
+			<h2 id='{% for variant in product.variants limit:1%}{{variant.id}}{% endfor%}' class="product_name" itemprop="name">{{ product.title }}</h2> 
+			<h3 class="fs-subtitle">{{ product.price | money_with_currency }}</h3>
+			{% if product.description != blank %}
+				<div class="description" style="overflow: scroll; max-height: 262px;" itemprop="description">
+					{{ product.description | split: '<!-- split -->' | first }}
+				</div>
+			{% endif %}   
+			{% if section.settings.enable_shopify_product_badges and settings.enable_shopify_review_comments %}
+				<span class="shopify-product-reviews-badge" data-id="{{ product.id }}"></span>
+			{% endif %}
+			<input id='start-custom-product-form' type="button" name="next" class="next action-button" value="Start" />
+		</fieldset>           
+
+		{% if product.tags contains '1-8' or '1-4' %}
+			<fieldset>
+				<a class='custom-product-escape' href='/'> X</a>  
+				<p class="line-item-property__field">
+					<h2 class="fs-title">Select Your Colors</h2><br>
+					<h3 class="fs-subtitle">Choose up to 
+						<span class="color-limit">
+							{% if product.tags contains '1-4' %} 4 {% endif %}
+							{% if product.tags contains '1-8' %} 8 {% endif %}
+						</span>  
+						colors
+					</h3>
+					<ul class='color-selecter'>
+						<li class='color-input'>
+							<input required class="required single-checkbox" name="limit-box" type="checkbox" id="Orange"  hidden-data="Select-Your Color (1-8)" onchange="fillHidden('Select-Your Color (1-8)')" value="Orange"/>
+							<label for="Orange">
+								<span class="color-image" style="background-image: url(https://cdn.shopify.com/s/files/1/0012/4148/1296/products/orange_2000x.jpg?v=1551923345)"></span>
+								<span class="color-text"> Orange </span>
+							</label><br>
+						</li>
+						<li class='color-input'>
+							<input required class="required single-checkbox" name="limit-box" type="checkbox" id="Brilliant-Pink" hidden-data="Select-Your Color (1-8)" onchange="fillHidden('Select-Your Color (1-8)')" value="Brilliant Pink">
+							<label for="Brilliant-Pink">
+								<span class="color-image" style="background-image: url(https://cdn.shopify.com/s/files/1/0012/4148/1296/products/brilliant_pink_2000x.jpg?v=1551920909)"/></span>
+								<span class="color-text"> Brilliant Pink</span>
+							</label><br>
+						</li>
+						<li class='color-input'>
+							<input required class="required single-checkbox" name="limit-box" type="checkbox" id="Red" hidden-data="Select-Your Color (1-8)" onchange="fillHidden('Select-Your Color (1-8)')" value="Red">
+							<label for="Red">
+								<span class="color-image" style="background-image: url(https://cdn.shopify.com/s/files/1/0012/4148/1296/products/Red_2000x.jpg?v=1551921656)"/></span>
+									<span class="color-text">Red</span>
+							</label><br>
+						</li>
+						<li class='color-input'>
+							<input required class="required single-checkbox" name="limit-box" type="checkbox" id="Gemstone-Ruby" hidden-data="Select-Your Color (1-8)" onchange="fillHidden('Select-Your Color (1-8)')" value="Gemstone Ruby">
+							<label for="Gemstone-Ruby">
+								<span class="color-image" style="background-image: url(https://cdn.shopify.com/s/files/1/0012/4148/1296/products/gemstone_ruby_2000x.jpg?v=1551921881)"/></span>
+									<span class="color-text"> Gemstone Ruby </span>
+							</label><br>
+						</li>
+						<li class='color-input'>
+							<input required class="required single-checkbox" name="limit-box" type="checkbox" id="Amethyst-Purple" hidden-data="Select-Your Color (1-8)" onchange="fillHidden('Select-Your Color (1-8)')" value="Amethyst Purple">
+							<label for="Amethyst-Purple">
+								<span class="color-image" style="background-image: url(https://cdn.shopify.com/s/files/1/0012/4148/1296/products/amethyst_purple_2000x.jpg?v=1551920507)"/></span>
+									<span class="color-text">Amethyst Purple</span>
+							</label><br>
+						</li>
+						<li class='color-input'>
+							<input required class="required single-checkbox" name="limit-box" type="checkbox" id="Deep-Blue" hidden-data="Select-Your Color (1-8)" onchange="fillHidden('Select-Your Color (1-8)')" value="Deep Blue">
+							<label for="Deep-Blue">
+								<span class="color-image" style="background-image: url(https://cdn.shopify.com/s/files/1/0012/4148/1296/products/deep_blue_9f93305e-9758-4b93-84c6-1883c86412d2_2000x.jpg?v=1551921013)"/></span>
+								<span class="color-text"> Deep Blue</span>
+							</label><br>
+						</li>
+						<li class='color-input'>
+							<input required class="required single-checkbox" name="limit-box" type="checkbox" id="Aquamarine" hidden-data="Select-Your Color (1-8)" onchange="fillHidden('Select-Your Color (1-8)')" value="Aquamarine">
+							<label for="Aquamarine">
+								<span class="color-image" style="background-image: url(https://cdn.shopify.com/s/files/1/0012/4148/1296/products/aquamarine_2000x.jpg?v=1551919537)"/></span>
+								<span class="color-text">Aquamarine</span>
+							</label><br>
+						</li>
+						<li class='color-input'>
+							<input required class="required single-checkbox" name="limit-box" type="checkbox" id="Emerald-Green" hidden-data="Select-Your Color (1-8)" onchange="fillHidden('Select-Your Color (1-8)')" value="Emerald Green">
+							<label for="Emerald-Green">
+								<span class="color-image" style="background-image: url(https://cdn.shopify.com/s/files/1/0012/4148/1296/products/emerald_green_2000x.jpg?v=1551921249)"/></span>
+								<span class="color-text">Emerald Green</span>
+							</label><br>
+						</li>
+						<li class='color-input'>
+							<input required class="required single-checkbox" name="limit-box" type="checkbox" id="Deep-Teal" hidden-data="Select-Your Color (1-8)" onchange="fillHidden('Select-Your Color (1-8)')" value="Deep Teal">
+							<label for="Deep-Teal">
+								<span class="color-image" style="background-image: url(https://cdn.shopify.com/s/files/1/0012/4148/1296/products/Deep_Teal_a9f8db66-ce74-4482-b189-1a390300640b_2000x.jpg?v=1551920766)"/></span>
+								<span class="color-text">Deep Teal</span>
+							</label><br>
+						</li>
+						<li class='color-input'>
+							<input required class="required single-checkbox" name="limit-box" type="checkbox" id="Sky-Blue" hidden-data="Select-Your Color (1-8)" onchange="fillHidden('Select-Your Color (1-8)')" value="Sky Blue">
+							<label for="Sky-Blue">
+								<span class="color-image" style="background-image: url(https://cdn.shopify.com/s/files/1/0012/4148/1296/products/sky_blue_2000x.jpg?v=1551922394)"></span>
+								<span class="color-text">Sky Blue</span>
+							</label><br>
+						</li>
+						<li class='color-input'>
+							<input required class="required single-checkbox" name="limit-box" type="checkbox" id="Yellow" hidden-data="Select-Your Color (1-8)" onchange="fillHidden('Select-Your Color (1-8)')" value="Yellow">
+							<label for="Yellow">
+								<span class="color-image" style="background-image: url(https://cdn.shopify.com/s/files/1/0012/4148/1296/products/Yellow_2000x.jpg?v=1551919785)"/></span>
+								<span class="color-text">Yellow</span>
+							</label><br>
+						</li>
+						<li class='color-input'>
+							<input required class="required single-checkbox" name="limit-box" type="checkbox" id="Pure-White" hidden-data="Select-Your Color (1-8)" onchange="fillHidden('Select-Your Color (1-8)')" value="Pure White">
+							<label for="Pure-White">
+								<span class="color-image" style="background-image: url(https://cdn.shopify.com/s/files/1/0012/4148/1296/products/pure_white_2000x.jpg?v=1551922109)"/></span>
+								<span class="color-text">Pure White</span>
+							</label><br>
+						</li>
+						<li class='color-input'>
+							<input required class="required single-checkbox" name="limit-box" type="checkbox" id="Jet-Black" hidden-data="Select-Your Color (1-8)" onchange="fillHidden('Select-Your Color (1-8)')" value="Jet Black">
+							<label for="Jet-Black">
+								<span class="color-image" style="background-image: url(https://cdn.shopify.com/s/files/1/0012/4148/1296/products/jet_black_b63865ed-aa58-4c4d-910d-2146d39bf435_2000x.jpg?v=1551922854"/></span>
+								<span class="color-text">Jet Black</span>
+							</label><br>
+						</li>
+						<li class='color-input'>
+							<input required class="required single-checkbox" name="limit-box" type="checkbox" id="Ivory" hidden-data="Select-Your Color (1-8)" onchange="fillHidden('Select-Your Color (1-8)')" value="Ivory">
+							<label for="Ivory">
+								<span class="color-image" style="background-image: url(https://cdn.shopify.com/s/files/1/0012/4148/1296/products/ivory_2000x.jpg?v=1551923192"/></span>
+								<span class="color-text">Ivory</span>
+							</label><br>
+						</li>
+						<li class='color-input'>
+							<input required class="required single-checkbox" name="limit-box" type="checkbox" id="Tuxedo-Gray" hidden-data="Select-Your Color (1-8)" onchange="fillHidden('Select-Your Color (1-8)')" value="Tuxedo Gray">
+							<label for="Tuxedo-Gray">
+								<span class="color-image" style="background-image: url(https://cdn.shopify.com/s/files/1/0012/4148/1296/files/TUXEDO_GRAY.png?6025300373635742616"/></span>
+								<span class="color-text">Tuxedo Gray</span>
+							</label><br>
+						</li>
+						<li class='color-input'>
+							<input required class="required single-checkbox" name="limit-box" type="checkbox" id="Citron" hidden-data="Select-Your Color (1-8)" onchange="fillHidden('Select-Your Color (1-8)')" value="Citron">
+							<label for="Citron">
+								<span class="color-image" style="background-image: url(https://cdn.shopify.com/s/files/1/0012/4148/1296/products/citron_green_2000x.jpg?v=1551922972"/></span>
+								<span class="color-text">Citron</span>
+							</label><br>
+						</li>
+						<li class='color-input'>
+							<input required class="required single-checkbox" name="limit-box" type="checkbox" id="Green-Apple" hidden-data="Select-Your Color (1-8)" onchange="fillHidden('Select-Your Color (1-8)')" value="Green Apple">
+							<label for="Green-Apple">
+								<span class="color-image" style="background-image: url(https://cdn.shopify.com/s/files/1/0012/4148/1296/files/GREEN_APPLE.png?6025300373635742616"/></span>
+								<span class="color-text">Green Apple</span>
+							</label><br>
+						</li>
+						<li class='color-input'>
+							<input required class="required single-checkbox" name="limit-box" type="checkbox" id="Blush-Pink" hidden-data="Select-Your Color (1-8)" onchange="fillHidden('Select-Your Color (1-8)')" value="Blush Pink">
+							<label for="Blush-Pink">
+								<span class="color-image" style="background-image: url(https://cdn.shopify.com/s/files/1/0012/4148/1296/files/BLUSH_PINK.png?6025300373635742616"/></span>
+								<span class="color-text">Blush Pink</span>
+							</label><br>
+						</li>
+						<li class='color-input'>
+							<input required class="required single-checkbox" name="limit-box" type="checkbox" id="Robin's-Egg Blue" hidden-data="Select-Your Color (1-8)" onchange="fillHidden('Select-Your Color (1-8)')" value="Robin's Egg Blue">
+							<label for="Robin's-Egg Blue">
+								<span class="color-image" style="background-image: url(https://cdn.shopify.com/s/files/1/0012/4148/1296/files/ROBIN_S_EGG_BLUE.png?6025300373635742616"/></span>
+								<span class="color-text">Robin's Egg Blue</span>
+							</label><br>
+						</li>
+						<li class='color-input'>
+							<input required class="required single-checkbox" name="limit-box" type="checkbox" id="Champagne" hidden-data="Select-Your Color (1-8)" onchange="fillHidden('Select-Your Color (1-8)')" value="Champagne">
+							<label for="Champagne">
+								<span class="color-image" style="background-image: url(https://cdn.shopify.com/s/files/1/0012/4148/1296/files/CHAMPAGNE.png?6025300373635742616"/></span>
+								<span class="color-text">Champagne</span>
+							</label><br> 
+						</li>
+						<li class='color-input'>
+							<input type="hidden" id="Select-Your Color (1-8)" name="properties[Select Your Color (1-8)]">
+						</li>
+					</ul>
+					<script>
+					function fillHidden(hiddenname) {
+						var checkboxes = document.querySelectorAll('[hidden-data="'+hiddenname+'"]');
+						var hiddenfield = document.getElementById(hiddenname);
+						hiddenfield.value = ""
+						var i;
+						for (i = 0; i < checkboxes.length; i++) {
+							var x = checkboxes[i];
+							if(x.checked){
+								if(hiddenfield.value==""){
+										hiddenfield.value = x.value;
+								}else{
+										hiddenfield.value = hiddenfield.value + ", " + x.value; 
+								} 
+							}
+						}
+					}
+					</script>
+				</p>
+				<p class="line-item-property__field">
+					<label for="additional-comments">Comments or details about color</label>
+					<textarea id="additional-comments" name="properties[Additional Comments]" placeholder='Comments are optional.  This may include percentages of each color that you’d like, or “a lot of” and “a little of”  or “major color aquamarine and amethyst, with highlights of pure white.'></textarea>
+				</p>  
+				<input type="button" name="previous" class="previous action-button" value="Previous" />
+				<input id='optional-products-next' type="button" name="next" class="next action-button" value="Next" />      
+			</fieldset>
+		{% endif %}     
+
+		{% if product.tags contains 'engraving' %}
+			<fieldset class='setting-engraving-options'>
+				<a class='custom-product-escape' href='/'> X</a>  
+				<h2 class="fs-title">Engraving</h2>
+				<h3 class="fs-subtitle">Would you like to add a free engraving?</h3>
+				<p class="line-item-property__field">
+					<input id="engraving1" type="text" name="properties[Engraving1 ]" placeholder='Engraving Line 1'>
+					<input id="engraving2" type="text" name="properties[Engraving2 ]" placeholder='Engraving Line 2'>
+					<input id="engraving3" type="text" name="properties[Engraving3 ]" placeholder='Engraving Line 3'>
+					<input id="engraving4" type="text" name="properties[Engraving4 ]" placeholder='Engraving Line 4'>
+				</p>
+				<a class='custom-product-escape' href='/'> X</a>  
+				<h2 class="fs-title">Optional Items</h2>
+				<h3 class="fs-subtitle">Would you like to add optional items to your order?</h3>
+				<p class="line-item-property__field">
+					<ul class='optional--item--selecter'>
+						<li class='optional-input'>
+							<input type="checkbox" class='optional-product-set' name="optional-product-box" id="UNITY-IN" hidden-data="Optional-Items"  value="UNITY-IN">
+							<label for="UNITY-IN" id='21369398394960'>
+								<span style="background-image: url('https://cdn.shopify.com/s/files/1/0012/4148/1296/files/new_red_heart_grande_682ddeaf-50e9-4f49-beeb-dbb75e10b9b6.jpg?2031663953738217080')" class="option-image-background">
+									<span class="optional-text-overlay"> UNITY IN GLASS HEART-SHAPED PAPERWEIGHT                 
+										<p class="modal_price" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+											<meta itemprop="priceCurrency" content="{{ shop.currency }}" />
+											<meta itemprop="seller" content="{{ shop.name | escape }}" />
+											<link itemprop="availability" href="http://schema.org/ InStock ">
+											<meta itemprop="itemCondition" itemtype="http://schema.org/OfferItemCondition" content="http://schema.org/NewCondition"/>
+											<span itemprop="price" content="{{ 72 | money_without_currency | remove: "," }}" class="">
+												<span class="current_price">                      
+													<span class="money">{{ 7200 | money }}</span>
+												</span>
+											</span>
+										</p>
+									</span>
+								</span>
+								<p class="selected-label-btn"></p>                
+							</label>
+							<span class="purchase-details">
+								<span class="purchase-details__quantity product-quantity-box" style="  width: 100%;">
+									<span class="ss-icon product-minus js-change-quantity" data-func="minus"><span class="icon-minus"></span></span>
+									<input type="number" min="1" size="2" class="quantity" name="quantity" id="quantity" value="1" {% if settings.limit_quantity and variant.inventory_management != blank and variant.inventory_policy == "deny" %}max="{{ variant.inventory_quantity }}"{% endif %} />
+									<span class="ss-icon product-plus js-change-quantity" data-func="plus"><span class="icon-plus"></span></span>
+								</span>
+							</span>
+						</li>
+						<li class='optional-input'>
+							<input type="checkbox" class='optional-product-set' name="optional-product-box" id="UNITY-IN GLASS ORNAMENT" hidden-data="Optional-Items"  value="UNITY IN GLASS ORNAMENT">
+							<label for="UNITY-IN GLASS ORNAMENT" id='21369398427728'>
+								<span style="background-image: url('https://cdn.shopify.com/s/files/1/0012/4148/1296/files/multi_ornaments_gallery_grande_0e9838f2-a5a9-42ad-8e63-76cc68e44be5.jpg?2031663953738217080')" class="option-image-background">
+									<span class="optional-text-overlay"> UNITY IN GLASS ORNAMENT
+										<p class="modal_price" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+											<meta itemprop="priceCurrency" content="{{ shop.currency }}" />
+											<meta itemprop="seller" content="{{ shop.name | escape }}" />
+											<link itemprop="availability" href="http://schema.org/ InStock ">
+											<meta itemprop="itemCondition" itemtype="http://schema.org/OfferItemCondition" content="http://schema.org/NewCondition"/>
+											<span itemprop="price" content="{{ 60 | money_without_currency | remove: "," }}" class="">
+												<span class="current_price">                      
+													<span class="money">{{ 6000 | money }}</span>
+												</span>
+											</span>
+										</p>
+									</span>
+								</span>
+								<p class="selected-label-btn"></p>                 
+							</label>
+							<span class="purchase-details">
+								<span class="purchase-details__quantity product-quantity-box" style="  width: 100%;">
+									<span class="ss-icon product-minus js-change-quantity" data-func="minus"><span class="icon-minus"></span></span>
+									<input type="number" min="1" size="2" class="quantity" name="quantity" id="quantity" value="1" {% if settings.limit_quantity and variant.inventory_management != blank and variant.inventory_policy == "deny" %}max="{{ variant.inventory_quantity }}"{% endif %} />
+									<span class="ss-icon product-plus js-change-quantity" data-func="plus"><span class="icon-plus"></span></span>
+								</span>
+							</span>
+						</li>
+						{% if product.tags contains 'optional-engraving' %}
+							<li class='optional-input'>
+								<input type="checkbox" class='optional-product-set' name="optional-product-box" id="Engraving-(Optional)" hidden-data="Optional-Items"  value="Engraving (Optional)">
+								<label for="Engraving-(Optional)" id='21369398526032'>
+									<span style="background-image: url('https://cdn.shopify.com/s/files/1/0012/4148/1296/files/engraving_example_1_grande_f643da66-7a86-4c67-9bb4-48a8c747a9ac.jpg?2031663953738217080')" class="option-image-background">
+										<span class="optional-text-overlay">Engraving Current Item 
+											<p class="modal_price" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+												<meta itemprop="priceCurrency" content="{{ shop.currency }}" />
+												<meta itemprop="seller" content="{{ shop.name | escape }}" />
+												<link itemprop="availability" href="http://schema.org/ InStock ">
+												<meta itemprop="itemCondition" itemtype="http://schema.org/OfferItemCondition" content="http://schema.org/NewCondition"/>
+												<span itemprop="price" content="{{ 30 | money_without_currency | remove: "," }}" class="">
+													<span class="current_price">                      
+														<span class="money">{{ 3000 | money }}</span>
+													</span>
+												</span>
+											</p>
+										</span>
+									</span>
+									<p class="selected-label-btn"></p>            
+								</label>
+							</li>
+						{% endif %} 
+						<li class='optional-input'>
+							<input type="checkbox" class='optional-product-set' name="optional-product-box" id="OPTIONAL-GLASS PENDANT" hidden-data="Optional-Items"  value="OPTIONAL GLASS PENDANT">
+							<label for="OPTIONAL-GLASS PENDANT" id='21369398558800'>
+								<span style="background-image: url('https://cdn.shopify.com/s/files/1/0012/4148/1296/files/pendant_1_grande_e4283f79-c54c-4178-ab01-75c53d6dbbc8.jpg?2031663953738217080')" class="option-image-background">
+									<span class="optional-text-overlay">GLASS PENDANT 
+										<p class="modal_price" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+											<meta itemprop="priceCurrency" content="{{ shop.currency }}" />
+											<meta itemprop="seller" content="{{ shop.name | escape }}" />
+											<link itemprop="availability" href="http://schema.org/ InStock ">
+											<meta itemprop="itemCondition" itemtype="http://schema.org/OfferItemCondition" content="http://schema.org/NewCondition"/>
+											<span itemprop="price" content="{{ 25 | money_without_currency | remove: "," }}" class="">
+												<span class="current_price">                      
+													<span class="money">{{ 2500 | money }}</span>
+												</span>
+											</span>
+										</p>
+									</span>
+								</span>
+								<p class="selected-label-btn"></p>                   
+							</label>
+							<span class="purchase-details">
+								<span class="purchase-details__quantity product-quantity-box" style="  width: 100%;">
+									<span class="ss-icon product-minus js-change-quantity" data-func="minus"><span class="icon-minus"></span></span>
+									<input type="number" min="1" size="2" class="quantity" name="quantity" id="quantity" value="1" {% if settings.limit_quantity and variant.inventory_management != blank and variant.inventory_policy == "deny" %}max="{{ variant.inventory_quantity }}"{% endif %} />
+									<span class="ss-icon product-plus js-change-quantity" data-func="plus"><span class="icon-plus"></span></span>
+								</span>
+							</span>
+						</li>
+						<li class='optional-input'>
+							<input type="checkbox" class='optional-product-set' name="optional-product-box" id="Optional-Engraved Unity in Glass Crystal Platform" hidden-data="Optional-Items"  value="Glass Crystal Platform With Engraving">
+							<label for="Optional-Engraved Unity in Glass Crystal Platform" id='21661519577168'>
+								<span style="background-image: url('https://cdn.shopify.com/s/files/1/0012/4148/1296/files/Screen_Shot_2019-02-16_at_5.33.52_PM.png?16975395629469769730')" class="option-image-background">
+									<span class="optional-text-overlay"> Engraved Unity in Glass Crystal Platform 
+										<p class="modal_price" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+											<meta itemprop="priceCurrency" content="{{ shop.currency }}" />
+											<meta itemprop="seller" content="{{ shop.name | escape }}" />
+											<link itemprop="availability" href="http://schema.org/ InStock ">
+											<meta itemprop="itemCondition" itemtype="http://schema.org/OfferItemCondition" content="http://schema.org/NewCondition"/>
+											<span itemprop="price" content="{{ 90 | money_without_currency | remove: "," }}" class="">
+												<span class="current_price">                      
+													<span class="money">{{ 9000 | money }}</span>
+												</span>
+											</span>
+										</p>
+									</span>
+								</span>
+								<p class="selected-label-btn"></p>                
+							</label>
+						</li>
+						<li class='optional-input'>
+							<input type="checkbox" class='optional-product-set' name="optional-product-box" id="UNITY-IN GLASS ENGRAVED AURORA" hidden-data="Optional-Items"  value="OPTIONAL UNITY IN GLASS ENGRAVED AURORA">
+							<label for="UNITY-IN GLASS ENGRAVED AURORA" id='21661484548176'>
+								<span style="background-image: url('https://cdn.shopify.com/s/files/1/0012/4148/1296/files/Screen_Shot_2019-02-16_at_5.34.10_PM.png?16975395629469769730')" class="option-image-background">
+									<span class="optional-text-overlay">Optional Engraved Unity in Glass Aurora
+										<p class="modal_price" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+											<meta itemprop="priceCurrency" content="{{ shop.currency }}" />
+											<meta itemprop="seller" content="{{ shop.name | escape }}" />
+											<link itemprop="availability" href="http://schema.org/ InStock ">
+											<meta itemprop="itemCondition" itemtype="http://schema.org/OfferItemCondition" content="http://schema.org/NewCondition"/>
+											<span itemprop="price" content="{{ 199 | money_without_currency | remove: "," }}" class="">
+												<span class="current_price">                      
+													<span class="money">{{ 19900 | money }}</span>
+												</span>
+											</span>
+										</p>
+									</span>
+								</span>
+								<p class="selected-label-btn"></p>                    
+							</label>            
+						</li>
+						<li class='optional-input'>
+							<input type="checkbox" class='optional-product-set' name="optional-product-box" id="OPTIONAL-RING BOWL" hidden-data="Optional-Items"  value="OPTIONAL RING BOWL">
+							<label for="OPTIONAL-RING BOWL" id='21658558136400'>
+								<span style="background-image: url('https://cdn.shopify.com/s/files/1/0012/4148/1296/files/Screen_Shot_2019-02-16_at_5.34.25_PM.png?16975395629469769730')" class="option-image-background">
+									<span class="optional-text-overlay"> Unity in Glass Ring Bowl 
+										<p class="modal_price" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+											<meta itemprop="priceCurrency" content="{{ shop.currency }}" />
+											<meta itemprop="seller" content="{{ shop.name | escape }}" />
+											<link itemprop="availability" href="http://schema.org/ InStock ">
+											<meta itemprop="itemCondition" itemtype="http://schema.org/OfferItemCondition" content="http://schema.org/NewCondition"/>
+											<span itemprop="price" content="{{ 72 | money_without_currency | remove: "," }}" class="">
+												<span class="current_price">                      
+													<span class="money">{{ 8500 | money }}</span>
+												</span>
+											</span>
+										</p>
+									</span>
+								</span>
+								<p class="selected-label-btn"></p>    
+							</label>
+							<span class="purchase-details">
+								<span class="purchase-details__quantity product-quantity-box" style="  width: 100%;">
+									<span class="ss-icon product-minus js-change-quantity" data-func="minus"><span class="icon-minus"></span></span>
+									<input type="number" min="1" size="2" class="quantity" name="quantity" id="quantity" value="1" {% if settings.limit_quantity and variant.inventory_management != blank and variant.inventory_policy == "deny" %}max="{{ variant.inventory_quantity }}"{% endif %} />
+									<span class="ss-icon product-plus js-change-quantity" data-func="plus"><span class="icon-plus"></span></span>
+								</span>
+							</span>
+						</li>
+						<li class='optional-input'> 
+							<input type="checkbox" class='optional-product-set' name="optional-product-box" id="JEWISH-BREAKING OF THE GLASS CUP" hidden-data="Optional-Items"  value="JEWISH BREAKING OF THE GLASS CUP">
+							<label for="JEWISH-BREAKING OF THE GLASS CUP" id='21658543587408'>
+								<span style="background-image: url('https://cdn.shopify.com/s/files/1/0012/4148/1296/files/Screen_Shot_2019-02-16_at_5.34.33_PM.png?16975395629469769730')" class="option-image-background">
+									<span class="optional-text-overlay">JEWISH BREAKING OF THE GLASS CUP  
+										<p class="modal_price" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+											<meta itemprop="priceCurrency" content="{{ shop.currency }}" />
+											<meta itemprop="seller" content="{{ shop.name | escape }}" />
+											<link itemprop="availability" href="http://schema.org/ InStock ">
+											<meta itemprop="itemCondition" itemtype="http://schema.org/OfferItemCondition" content="http://schema.org/NewCondition"/>
+											<span itemprop="price" content="{{ 72 | money_without_currency | remove: "," }}" class="">
+												<span class="current_price">                      
+													<span class="money">{{ 5000 | money }}</span>
+												</span>
+											</span>
+										</p>
+									</span>
+								</span>
+								<p class="selected-label-btn"></p>    
+							</label>
+							<span class="purchase-details">
+								<span class="purchase-details__quantity product-quantity-box" style="  width: 100%;">
+									<span class="ss-icon product-minus js-change-quantity" data-func="minus"><span class="icon-minus"></span></span>
+									<input type="number" min="1" size="2" class="quantity" name="quantity" id="quantity" value="1" {% if settings.limit_quantity and variant.inventory_management != blank and variant.inventory_policy == "deny" %}max="{{ variant.inventory_quantity }}"{% endif %} />
+									<span class="ss-icon product-plus js-change-quantity" data-func="plus"><span class="icon-plus"></span></span>
+								</span>
+							</span>
+						</li>
+					</ul>
+					<span class="optional-engraving-area" style="display: none;">
+						<h2 class="fs-title">Optional Engraving</h2>
+						<h3 class="fs-subtitle">Subtitle</h3>
+						<p class="line-item-property__field">
+							<input id="optional-engraving1" type="text" name="optional-engraving-line1" placeholder='Engraving Line 1'>
+							<input id="optional-engraving2" type="text" name="optional-engraving-line2" placeholder='Engraving Line 2'>
+							<input id="optional-engraving3" type="text" name="optional-engraving-line3" placeholder='Engraving Line 3'>
+						</p>
+					</span>
+					<span class="crystal-engraving-area" style="display: none;">
+						<h2 class="fs-title">Engraved Unity in Glass Crystal Platform</h2>
+						<h3 class="fs-subtitle">Subtitle</h3>
+						<p class="line-item-property__field">
+							<input id="crystal-engraving1" type="text" name="crystal-engraving-line1" placeholder='Engraving Line 1'>
+							<input id="crystal-engraving2" type="text" name="crystal-engraving-line2" placeholder='Engraving Line 2'>
+							<input id="crystal-engraving3" type="text" name="crystal-engraving-line3" placeholder='Engraving Line 3'>
+							<input id="crystal-engraving4" type="text" name="crystal-engraving-line4" placeholder='Engraving Line 4'>
+						</p>
+					</span>
+					<span class="aurora-engraving-area" style="display: none;">
+						<h2 class="fs-title">AURORA UNITY IN GLASS ENGRAVED</h2>
+						<h3 class="fs-subtitle">Subtitle</h3>
+						<p class="line-item-property__field">
+							<input id="aurora-engraving1" type="text" name="aurora-engraving-line1" placeholder='Engraving Line 1'>
+							<input id="aurora-engraving2" type="text" name="aurora-engraving-line2" placeholder='Engraving Line 2'>
+							<input id="aurora-engraving3" type="text" name="aurora-engraving-line3" placeholder='Engraving Line 3'>
+							<input id="aurora-engraving4" type="text" name="aurora-engraving-line4" placeholder='Engraving Line 4'>
+						</p>
+					</span>
+					<script>
+						function fillHidden(hiddenname) {
+						var checkboxes = document.querySelectorAll('[hidden-data="'+hiddenname+'"]');
+						var hiddenfield = document.getElementById(hiddenname);
+						hiddenfield.value = ""
+						var i;
+						for (i = 0; i < checkboxes.length; i++) {
+							var x = checkboxes[i];
+							if(x.checked){
+								if(hiddenfield.value==""){
+									hiddenfield.value = x.value;
+									}else{
+									hiddenfield.value = hiddenfield.value + ", " + x.value; 
+									} 
+								}
+							}
+						}
+					</script>
+				</p>
+				<input type="button" name="previous" class="previous action-button" value="Previous" />
+				<input id='included-engraving-next' type="button" name="next" class="next action-button" value="Next" />
+			</fieldset>
+		{% endif %}     
+
+		{% if product.tags contains 'package' %}
+			<fieldset class='custom-product-final-step'>
+				<a class='custom-product-escape' href='/'> X</a>  
+				<div class="six columns medium-down--one-whole {% if section.settings.product_images_position == 'left' %}alpha{% else %}omega{% endif %}">
+					{% include 'product-images' %}       
+				</div>
+				<span class="nine columns medium-down--one-whole alpha">
+					<h2 class="fs-title">FINAL DETAILS</h2>
+					<h3 class="fs-subtitle">Ready To Complete the Order</h3>
+					<p class="line-item-property__field" style="max-width: 262px">
+						<label for="ceremony-date">Ceremony Date (Required) </label>
+						<div class="date-picker">
+							<div class="input">
+								<div class="result"><span id="ceremony-date" >Ceremony Date:</span></div>
+								<i><i class="fa fa-calendar"></i></i>
+							</div>
+							<div class="calendar"></div>
+						</div>   
+					</p>
+					
+					<p class="line-item-property__field">
+						<label for="additional-comments">Comments or details about color</label>
+						<textarea id="additional-comments" name="properties[Additional Comments]" placeholder='Comments are optional.  This may include percentages of each color that you’d like, or “a lot of” and “a little of”  or “major color aquamarine and amethyst, with highlights of pure white.'></textarea>
+					</p>    
+
+					<div class="custom-product-add purchase-details__buttons purchase-details__spb--{{ show_payment_button }}">
+						{% if settings.cart_action == 'reload_page' %}
+							<input type="hidden" name="return_to" value="back" />
+						{% elsif settings.cart_action == 'redirect_checkout' %}
+							<input type="hidden" name="return_to" value="/checkout" />
+						{% endif %}
+
+						{% capture add_to_cart_label %}{% if collection_handles contains 'pre-order' %}{{ 'collections.general.pre_order' | t }}{% else %}{{ 'products.product.add_to_cart' | t }}{% endif %}{% endcapture %}
+						<button type="submit" name="add" class="action_button custom_add_to_cart add_to_cart {% if show_payment_button %} action_button--secondary {% endif %}" data-label={{ add_to_cart_label | json }} disabled>
+							<span class="text">{{ add_to_cart_label }}</span>
+							<svg x="0px" y="0px" width="32px" height="32px" viewBox="0 0 32 32" class="checkmark">
+								<path fill="none" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" d="M9,17l3.9,3.9c0.1,0.1,0.2,0.1,0.3,0L23,11"/>
+							</svg>
+						</button>
+					</div>
+				</span>
+				<input type="button" name="previous" class="previous action-button product-last-back" value="Previous" />
+			</fieldset>
+		{% endif %}  
+		
+	{% endform %}
+</div>
+
+/*============================================================================*\
+	# Bundle Styles
+\*============================================================================*/
+<style>
+	/*basic reset*/
+		.product-last-back {
+			left: 18%;
+			top: 21px;
+			position: relative;
+		}
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		html {
+			height: 100%;
+			background: linear-gradient(rgba(196, 102, 0, 0.6), rgba(155, 89, 182, 0.6));
+		}
+		body {
+			background: #f7f6f3;
+		}
+
+	/*form styles*/
+		.shopify-product-form {
+			width: 100%;
+			margin: 50px auto;
+			text-align: center;
+			position: relative;
+		}
+		.shopify-product-form fieldset {
+			background: white;
+			border: 0 none;
+			border-radius: 3px;
+			box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.4);
+			padding: 20px 30px;
+			box-sizing: border-box;
+			width: 100%;
+			max-height: 500px;
+			overflow: overlay;
+			position: relative;
+		}
+
+		.shopify-product-form .description {
+			text-align: left;
+			line-height: 0.8;
+		}
+
+		.shopify-product-form .description li{
+			line-height: 18px;
+		}
+		.shopify-product-form fieldset:not(:first-of-type) {
+			display: none;
+		}
+	/*inputs*/
+		.shopify-product-form input,
+		.shopify-product-form textarea {
+			padding: 15px;
+			border: 2px solid #ccc;
+			border-radius: 3px;
+			margin-bottom: 10px;
+			width: 100%;
+			box-sizing: border-box;
+			color: #2c3e50;
+			font-size: 13px;
+		}
+	/*buttons*/
+		.shopify-product-form .action-button {
+			width: 180px;
+			background: white;
+			border: 2px solid #aad8c6;
+			color: #aad8c6;
+			font-weight: bold;
+			border-radius: 1px;
+			cursor: pointer;
+			padding: 13px 20px;
+			margin: 10px 5px;
+		}
+		.shopify-product-form .action-button:hover,
+		.shopify-product-form .action-button:focus {
+			background: #aad8c6;
+			color: white;
+			
+		}
+			.shopify-product-form .action-button:disabled {
+			background: grey;
+			color: white;
+			border-color: grey;
+
+		}
+	/*headings*/
+		.fs-title {
+			font-size: 15px;
+			text-transform: uppercase;
+			color: #2c3e50;
+			margin-bottom: 10px;
+			font-weight: bold;
+		}
+		.fs-subtitle {
+			font-weight: normal;
+			font-size: 13px;
+			color: #666;
+			margin-bottom: 20px;
+		}
+		.column, .columns {
+			margin-right: calc(95px / 2);
+		}
+		.color-input label {
+			{% comment %} height: 152px; {% endcomment %}
+			position: relative;
+		}
+		.optional-input{
+			min-height: 400px;
+			position: relative;
+		}
+		.quantity {
+			position: absolute;
+			right: 21px;
+			bottom: 0;
+			visibility: hidden;
+		}
+		input[type=number]::-webkit-inner-spin-button,
+		input[type=number]::-webkit-outer-spin-button
+		{
+			-webkit-appearance: none;
+			margin: 0;
+		}
+		input[type=number]
+		{
+			-moz-appearance: textfield;
+		}
+		.smart-payment-button--true .purchase-details {
+			padding-bottom: 0;
+		}
+		.quantity input {
+			width: 45px;
+			height: 42px;
+			line-height: 1.65;
+			float: left;
+			display: block;
+			padding: 0;
+			margin: 0;
+			padding-left: 20px;
+			border: 1px solid #eee;
+		}
+		.quantity input:focus {
+			outline: 0;
+		}
+		.quantity-nav {
+			float: left;
+			position: relative;
+			height: 42px;
+		}
+		.quantity-button {
+			position: relative;
+			cursor: pointer;
+			border-left: 1px solid #eee;
+			width: 20px;
+			text-align: center;
+			color: #333;
+			font-size: 13px;
+			line-height: 1.7;
+			-webkit-transform: translateX(-100%);
+			transform: translateX(-100%);
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+			-o-user-select: none;
+			user-select: none;
+		}
+
+		.quantity-button.quantity-up {
+			position: absolute;
+			height: 50%;
+			top: 0;
+			border-bottom: 1px solid #eee;
+		}
+		.quantity-button.quantity-down {
+			position: absolute;
+			bottom: -1px;
+			height: 50%;
+		}
+		.optional-text-overlay {
+			visibility: hidden;
+			opacity: 0;
+			position: absolute;
+			top: 0px;
+			text-align: center;
+			background: rgba(84,182,188,0.54);
+			height: 260px;
+			padding: 70px;
+			transition: opacity .25s ease-in-out;
+			-moz-transition: opacity .25s ease-in-out;
+			-webkit-transition: opacity .25s ease-in-out;
+			color: white;
+		}
+		.optional-text-overlay span {
+			color: white;
+		}
+		.optional--item--selecter .optional-input:hover .optional-text-overlay {
+			visibility: visible;
+			opacity: 1;
+		}
+		.purchase-details {
+			visibility: hidden;
+			opacity: 0;
+		}
+		.optional-text-overlay.selected-option {
+			visibility: visible;
+			opacity: 1;
+		}
+		.purchase-details.selected-option {
+			visibility: visible;
+			opacity: 1;
+		}
+		.option-image-background{
+			width: 100%;
+			height: 260px;
+			overflow: hidden;
+			display: block;
+			background-size: cover;
+		}
+		.quantity {
+			position: relative;
+			right: 0;
+			bottom: 0;
+			visibility: visible;
+		}
+		.optional-product-box label p {
+			magrin-top: 20px;
+		}
+		.product-quantity-box.purchase-details__quantity {
+			max-width: 150px;
+			margin: auto;
+			width: 100%;
+			text-align: center;
+		}
+
+	/*date picker*/
+		.date-picker {
+			width: 260px;
+			height: auto;
+			max-height: 50px;
+			background: white;
+			position: relative;
+			overflow: hidden;
+			transition: all 0.3s 0s ease-in-out;
+		}
+		.date-picker .input {
+			width: 100%;
+			height: 50px;
+			font-size: 0;
+			cursor: pointer;
+		}
+		.date-picker .input .result, .date-picker .input i {
+			display: inline-block;
+			vertical-align: top;
+		}
+		.date-picker .input .result {
+			width: calc(100% - 50px);
+			height: 50px;
+			line-height: 50px;
+			font-size: 16px;
+			padding: 0 10px;
+			color: grey;
+			box-sizing: border-box;
+		}
+		.date-picker .input i {
+			width: 50px;
+			height: 50px;
+			background-color: #aad8c6;
+			color: white;
+			line-height: 50px;
+			border: 0;
+			font-size: 18px;
+			padding: 0;
+		}
+		.date-picker .input i:hover {
+			background-color: #aad8c6;
+		}
+		.date-picker .input i:focus {
+			outline: 0;
+		}
+		.date-picker .calendar {
+			position: relative;
+			width: 100%;
+			background: #fff;
+			border-radius: 0px;
+			overflow: hidden;
+		}
+		.date-picker .ui-datepicker-inline {
+			position: relative;
+			width: 100%;
+		}
+		.date-picker .ui-datepicker-header {
+			height: 100%;
+			line-height: 50px;
+			background: #aad8c6;
+			color: #fff;
+			margin-bottom: 10px;
+		}
+		.date-picker .ui-datepicker-prev, .date-picker .ui-datepicker-next {
+			width: 20px;
+			height: 20px;
+			text-indent: 9999px;
+			border: 2px solid #fff;
+			border-radius: 100%;
+			cursor: pointer;
+			overflow: hidden;
+			margin-top: 12px;
+		}
+		.date-picker .ui-datepicker-prev {
+			float: left;
+			margin-left: 12px;
+		}
+		.date-picker .ui-datepicker-prev:after {
+			-webkit-transform: rotate(45deg);
+							transform: rotate(45deg);
+			margin: -43px 0px 0px 8px;
+		}
+		.date-picker .ui-datepicker-next {
+			float: right;
+			margin-right: 12px;
+		}
+		.date-picker .ui-datepicker-next:after {
+			-webkit-transform: rotate(-135deg);
+							transform: rotate(-135deg);
+			margin: -43px 0px 0px 6px;
+		}
+		.date-picker .ui-datepicker-prev:after, .date-picker .ui-datepicker-next:after {
+			content: "";
+			position: absolute;
+			display: block;
+			width: 4px;
+			height: 4px;
+			border-left: 2px solid #fff;
+			border-bottom: 2px solid #fff;
+		}
+		.date-picker .ui-datepicker-prev:hover, .date-picker .ui-datepicker-next:hover, .date-picker .ui-datepicker-prev:hover:after, .date-picker .ui-datepicker-next:hover:after {
+			border-color: #505050;
+		}
+		.date-picker .ui-datepicker-title {
+			text-align: center;
+		}
+		.date-picker .ui-datepicker-calendar {
+			width: 100%;
+			text-align: center;
+		}
+		.date-picker .ui-datepicker-calendar thead tr th i {
+			display: block;
+			width: 100%;
+			color: #aad8c6;
+			margin-bottom: 5px;
+			font-size: 13px;
+		}
+		.date-picker .ui-state-default {
+			display: block;
+			text-decoration: none;
+			color: #2d2d2d;
+			line-height: 40px;
+			font-size: 12px;
+		}
+		.date-picker .ui-state-default:hover {
+			color: #aad8c6;
+			background: rgba(0, 0, 0, 0.73);
+		}
+		.date-picker .ui-state-highlight {
+			color: #aad8c6;
+		}
+		.date-picker .ui-state-active {
+			color: #aad8c6;
+			background-color: rgba(131, 146, 167, 0.12);
+			font-weight: 600;
+		}
+		.date-picker .ui-datepicker-unselectable .ui-state-default {
+			color: #eee;
+			border: 2px solid transparent;
+		}
+		.date-picker.open {
+			max-height: 400px;
+		}
+		.date-picker.open .input i {
+			background: #aad8c6;
+		}
+
+</style>
+
+/*============================================================================*\
+	# Bundle Functionality
+\*============================================================================*/
+<script>
+	//Set Variables
+		var limit = $('.color-limit').html();
+		var listOfProducts = [];
+		var productProps = {
+			product_id: '',
+			colors: [],
+			engraving: ['','','',''],
+			optional: [],
+			date: '',
+			notes: '',
+		}
+
+	//jQuery time
+		var current_fs, next_fs, previous_fs; //fieldsets
+		var left, opacity, scale; //fieldset properties which we will animate
+		var animating; //flag to prevent quick multi-click glitches
+
+	// Set Colors Selection Limit
+		$('input.single-checkbox').on('change', function(evt) {
+			if($('[name="limit-box"]:checked').length > limit) {    
+				this.checked = false;
+			}
+			if($('[name="limit-box"]:checked').length >= 1 ){
+				$('#color-next').removeAttr('disabled');   
+			} else {
+				$('#color-next').attr('disabled', 'disabled'); 
+			}
+		});
+
+	// Set Optional Products
+		$('.optional-input').change(function() {
+			var addedProduct = {
+				name: $(this).find("[name='optional-product-box']").val(),
+				id: $(this)[0].childNodes[3].id,
+				quantity: 1,
+			}
+			
+			var found = productProps.optional.find(function(element) {
+				return element.name == addedProduct.name;
+			});
+
+			if($(this).find("[name='optional-product-box']").is(':checked')){
+				$(this).find(".optional-text-overlay").addClass("selected-option");
+				$(this).find(".purchase-details").addClass("selected-option");
+				if (found == undefined) {
+					productProps.optional.push(addedProduct);
+					if ($(this).find("[name='optional-product-box']").val().includes("Optional")) {
+						jQuery(".optional-engraving-area").show();
+					}
+					if ($(this).find("[name='optional-product-box']").val().includes("Crystal")) {
+						jQuery(".crystal-engraving-area").show();
+					}
+					if ($(this).find("[name='optional-product-box']").val().includes("AURORA")) {
+						jQuery(".aurora-engraving-area").show();
+					}
+				} else {
+					addedProduct.quantity = $(this).find("[name='quantity']").val();
+					var foundIndex = productProps.optional.indexOf(found);
+					productProps.optional.splice(foundIndex, 1, addedProduct);
+				}
+			} else {
+				$(this).find(".optional-text-overlay").removeClass("selected-option");
+				$(this).find(".purchase-details").removeClass("selected-option");
+				
+				var foundIndex = productProps.optional.indexOf(found);
+				productProps.optional.splice(foundIndex, 1);
+
+				if ($(this).find("[name='optional-product-box']").val().includes("Optional")) {
+					jQuery(".optional-engraving-area").hide();
+				}
+				if ($(this).find("[name='optional-product-box']").val().includes("Crystal")) {
+					jQuery(".crystal-engraving-area").hide();
+				}
+				if ($(this).find("[name='optional-product-box']").val().includes("AURORA")) {
+					jQuery(".aurora-engraving-area").hide();
+				}
+			}
+		});
+
+	// Set Optional Engravings
+		$('.optional-engraving-area p input').on('keyup', function() {  
+			for(var i=0; i< productProps.optional.length; i++){
+				if (productProps.optional[i].name == 'Engraving (Optional)'){
+					productProps.optional[i].engraving = [];
+					$('.optional-engraving-area p input').each(function(){        
+						productProps.optional[i].engraving.push($(this).val());        
+					});
+				}
+			}
+		});
+
+	// Set Crystal Engravings
+		$('.crystal-engraving-area p input').on('keyup', function() {  
+			for(var i=0; i< productProps.optional.length; i++){
+				if (productProps.optional[i].name == 'Glass Crystal Platform With Engraving'){
+					productProps.optional[i].engraving = [];
+					$('.crystal-engraving-area p input').each(function(){
+						var currentVal = $(this).val();
+						if ( currentVal.length > 0){
+							productProps.optional[i].engraving.push(currentVal);        
+						}
+					});
+				}
+			}
+		});
+
+	// Set Aurore Engravings
+		$('.aurora-engraving-area p input').on('keyup', function() {  
+			for(var i=0; i< productProps.optional.length; i++){
+				if (productProps.optional[i].name == 'OPTIONAL UNITY IN GLASS ENGRAVED AURORA'){
+					productProps.optional[i].engraving = [];
+					$('.aurora-engraving-area p input').each(function(){   
+						var currentVal = $(this).val();
+						if ( currentVal.length > 0){
+							productProps.optional[i].engraving.push(currentVal);        
+						}
+					});
+				}
+			}
+		});
+
+	// Set Notes
+		$('#additional-comments').on('keyup', function() {
+			productProps.notes = $(this).val();
+		});
+
+	// On Click 'Next' Step Button
+		$(".next").click(function(){
+			if(animating) return false;
+			animating = true;
+			current_fs = $(this).parent();
+			next_fs = $(this).parent().next();
+			
+			if ( $(this).parent().hasClass("optional-products-list")){
+				var optionalIncluded = productProps.optional.find(function(element) {
+					return element.name == "Engraving (Optional)";
+				});
+			}
+
+			$("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
+			next_fs.show(); 
+			current_fs.animate({opacity: 0}, {
+				step: function(now, mx) {
+					scale = 1 - (1 - now) * 0.2;
+					left = (now * 50)+"%";
+					opacity = 1 - now;
+					current_fs.css({
+						'transform': 'scale('+scale+')',
+						'position': 'relative'
+					});
+					next_fs.css({'left': left, 'opacity': opacity});
+				}, 
+				duration: 800, 
+				complete: function(){
+					current_fs.hide();
+					animating = false;
+				}, 
+			});
+		
+			var nextId = $(this).attr('id');
+
+			switch (nextId) {
+				case 'start-custom-product-form':
+					productProps = {
+						product_id: $('.product_name')[0].id,
+						colors: [],
+						engraving: ['','','',''],
+						optional: [],
+						date: '',
+						notes: '',
+					}
+					break;
+				case 'color-next':
+					productProps.colors = [];
+					$('[name="limit-box"]:checked').each(function(){
+						productProps.colors.push($(this).val());
+					});      
+					break;
+				case 'included-engraving-next':
+				case 'optional-engraving-next':
+					productProps.engraving = [];
+					$('.setting-engraving-options p input').each(function(){        
+						productProps.engraving.push($(this).val());        
+					});
+					break;
+				case 'optional-products-next':
+					break;      
+			}
+			
+			$('html, body').animate({ scrollTop: 300 }, 'slow', function () {});
+		});
+
+	// On Click 'Previous' Step Button
+		$(".previous").click(function(){
+			if(animating) return false;
+			animating = true;
+			
+			current_fs = $(this).parent();
+			previous_fs = $(this).parent().prev();
+			
+			if ( $(this).parent().hasClass("custom-product-final-step")){
+				var optionalIncluded = productProps.optional.find(function(element) {
+					return element.name == "Engraving (Optional)";
+				});
+			}
+			
+			$("#progressbar li").eq($("fieldset").index(current_fs)).removeClass("active");
+			
+			previous_fs.show(); 
+			current_fs.animate({opacity: 0}, {
+				step: function(now, mx) {
+					scale = 0.8 + (1 - now) * 0.2;
+					left = ((1-now) * 50)+"%";
+					opacity = 1 - now;
+					current_fs.css({'left': left});
+					previous_fs.css({'transform': 'scale('+scale+')', 'opacity': opacity});
+				}, 
+				duration: 800, 
+				complete: function(){
+					current_fs.hide();
+					animating = false;
+				}, 
+			});
+			$('html, body').animate({ scrollTop: 300 }, 'slow', function () {});
+		});
+
+
+	// Calender Feature on Final Step
+		jQuery(document).ready(function($){
+			$('.date-picker').addClass("open");
+			$('.custom-product-add').hide();
+			$(function() {
+				$( ".calendar" ).datepicker({
+					dateFormat: 'mm/dd/yy',
+					firstDay: 1
+				});
+				
+				$(document).on('click', '.date-picker .input', function(e){
+					var $me = $(this),
+					$parent = $me.parents('.date-picker');
+					$parent.toggleClass('open');
+				});
+				
+				$(".calendar").on("change",function(){
+					var $me = $(this),
+						$selected = $me.val(),
+						$parent = $me.parents('.date-picker');
+					$('.custom_add_to_cart').removeAttr('disabled');      
+					$('.custom-product-add').show();   
+					$parent.find('.result').children('span').html($selected);     
+					{% comment %} console.log('check value:', $('#ceremony-date')[0].innerHTML); {% endcomment %}
+					$('ceremony-date-label').hide()
+					productProps.date = $('#ceremony-date')[0].innerHTML;
+				});
+			});
+		});
+
+
+	// On Click 'Add to Cart' Button
+		Shopify.queue = [];
+		Shopify.moveAlong = function() {
+			if (Shopify.queue.length) {
+				var request = Shopify.queue.shift();
+				Shopify.addItem(request, Shopify.moveAlong);
+			} else {
+				document.location.href = '/cart';
+			}
+		};
+		Shopify.addItem = function(request, callback) {
+			var params = {
+				quantity: request.quantity,
+				id: request.id,
+			};
+			if(request.properties != false){
+				params.properties = request.properties;
+			}
+			console.log('params', params);
+			$.ajax({
+				type: 'POST',
+				url: '/cart/add.js',
+				dataType: 'json',
+				data: params,
+				success: function (textStatus, status) {
+					console.log(textStatus);
+					console.log(status)
+					callback();
+				},
+				error: function(xhr, textStatus, error) {
+					console.log(xhr.responseText);
+					console.log(xhr.statusText);
+					console.log(textStatus);
+					console.log(error);
+				}
+			});
+		}
+		$(".custom_add_to_cart").on('click', function(){  
+			var today = new Date();
+			var dd = today.getDate();
+			var mm = today.getMonth() + 1; //January is 0!
+			var yyyy = today.getFullYear();
+			if (dd < 10) {
+				dd = '0' + dd;
+			}
+
+			if (mm < 10) {
+				mm = '0' + mm;
+			}
+
+			today = mm + '/' + dd + '/' + yyyy;
+			
+			var mainProduct = {
+				quantity: 1,
+				id: productProps.product_id,
+				properties: {
+					'Line 1': productProps.engraving[0],
+					'Line 2': productProps.engraving[1],
+					'Line 3': productProps.engraving[2],
+					'Line 4': productProps.engraving[3],
+					'Ceremony Date': productProps.date,
+					'Notes': productProps.notes ? productProps.notes : 'None',
+				},
+			}
+			
+			for (var i = 0; i < productProps.colors.length; i++){
+				mainProduct.properties[`color #${i+1}`] = productProps.colors[i];
+			}
+
+			listOfProducts.push(mainProduct); 
+			productProps.optional.forEach(function(product){        
+				if (product.engraving){
+					if (product.engraving.length == 4){
+						var newProductObj = {
+							quantity: product.quantity,
+							id: Number(product.id),
+							properties: {
+								'Type': 'Optional Item',
+								'Line 1': product.engraving[0],
+								'Line 2': product.engraving[1],
+								'Line 3': product.engraving[2],
+								'Line 4': product.engraving[3],
+							},
+						}
+						listOfProducts.push(newProductObj);
+					} else {  
+						var newProductObj = {
+							quantity: product.quantity,
+							id: Number(product.id),
+							properties: {
+								'Type': 'Optional Item',
+								'Line 1': product.engraving[0],
+								'Line 2': product.engraving[1],
+								'Line 3': product.engraving[2],
+							},
+						}
+						listOfProducts.push(newProductObj);
+					}
+				} else {
+					var newProductObj = {
+						quantity: product.quantity,
+						id: Number(product.id),
+						properties: {
+							'Type': 'Optional Item'
+						}
+					}
+					listOfProducts.push(newProductObj);
+				}  
+			});
+			listOfProducts.forEach(function(product){
+				Shopify.queue.push(product);  
+			});	
+			Shopify.moveAlong();	
+		})	
+
+</script>

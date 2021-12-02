@@ -1,0 +1,267 @@
+<!-- {% section "featured-collection-custom-box" %} -->
+<div class="custom-box-top"></div>
+
+<div id="main-photos" class="p-main-photo" style="background-image:url('https://cdn.shopify.com/s/files/1/0275/6984/8381/files/3_Tube_Top_Down_Blank_1.png?v=1599146399');">
+	<ul class="custom-add-icons">
+		<li class="">
+			{% include 'icon-custom-add' %}
+		</li>
+		<li class="">
+			{% include 'icon-custom-add' %}
+		</li>
+		<li class="">
+			{% include 'icon-custom-add' %}
+		</li>
+	</ul>
+	<ul class="custom-add-box">
+		<li class="hide-img">
+			{% include 'icon-custom-box' %}
+		</li>
+		<li class="hide-img">
+			{% include 'icon-custom-box' %}
+		</li>
+		<li class="hide-img">
+			{% include 'icon-custom-box' %}
+		</li>
+	</ul>
+</div>
+
+<div class="custom-box-bottom"></div>
+
+<style>
+  #custom-box .hideSelection {
+    display: none;
+  }  
+	.filter-bar select {
+    height: 52px;
+    padding-left: 22px;
+  }
+</style>
+
+/*===============================================================*\
+  #Bundle Functionality
+\*===============================================================*/
+<script>
+  /*===  Product Properties  ===*/
+		var productObj = {
+			"id": "234234",
+			"quantity": 1,
+			"properties": {
+				"Candy 1": "Chocolate",
+				"Candy 2": "Chocolate",
+				"Candy 3": "Chocolate",
+				"Candy 4": "Chocolate",    
+			}
+		};
+
+  /*===  Candy Array  ===*/
+		var selectCandy = [];
+  
+  /*===  Candy List Limit - 3,6,12  ===*/
+		var candyListLimit = 3;
+
+  /*===  spliceSelectCandy Function - cutout element from array  ===*/
+		function spliceSelectCandy(i){
+			console.log('selectCandy before splice',selectCandy);
+			selectCandy.splice(i, 1);
+			console.log('selectCandy after splice', selectCandy);
+		}
+
+		function displayReset(){
+			var img2 = 'https://cdn.shopify.com/s/files/1/0275/6984/8381/files/Box_2.png?v=1596656137'
+			var title = "Select A Candy";
+
+			$("#selected-licorice li").each(function(index, element){ 
+				jQuery(this).find("img").attr('src', img2);
+				jQuery(this).find("p").text(title);
+			})
+		}
+  
+		displayReset();
+
+  /*===  boxCart Function  ===*/
+		function boxCart(){
+			if (selectCandy.length === 0 ){
+				$('#selected-licorice').hide();
+				$('.purchase-toolbar').hide();
+				$('#empty-box-image').show();
+			} else {
+				$('#empty-box-image').hide();
+				$('#selected-licorice').show();
+				$('.purchase-toolbar').show();
+			}
+		}
+		boxCart();
+
+  /*===  displayImage Function  ===*/
+		function displayImage(){   
+			for(var i = 0; i < selectCandy.length; i++){
+				var img = "https://via.placeholder.com/400";
+				var title = "Select A Candy";
+				
+				if (selectCandy[i].image){
+					img = selectCandy[i].image;
+					title = selectCandy[i].title
+				} else {
+					img = "https://via.placeholder.com/400";
+					title = "Select A Candy";
+				}
+
+				$(".custom-add-box li").each(function(index, element){ 
+					if(index == i){ 
+						console.log("working left index", index);
+						$(this).removeClass("hide-img"); 
+					}
+				})
+
+				$("#selected-licorice li").each(function(index, element){ 
+					if(index == i){
+						jQuery(this).find("img").attr('src', img);
+						jQuery(this).find("p").text(title);
+					}
+				})
+			}
+			boxCart();
+		}  
+
+		jQuery('.candy-block').on('click', function(){
+			var newCandy = {
+				title: $(this).find(".candy-title").text(),
+				image: $(this).find("img").attr('src')
+			};
+			if (selectCandy.length < candyListLimit) {
+				selectCandy.push(newCandy);
+			} else {
+				alert(`Custom Box is full`);
+			}
+
+			displayImage();
+		});
+
+
+  /*===  onCandyRemove Function - loop thru an remove items with title  ===*/
+		function onCandyRemove(inputData){
+			var obj = null;    
+			for (var i = 0; i < selectCandy.length; i++) {
+				if (selectCandy[i].title == inputData) {
+					spliceSelectCandy(i);
+					obj = selectCandy[i];
+					displayReset();
+					displayImage();  
+					removeMainImg();     
+					break;
+				}
+			}    
+		};
+
+
+  /*===  Remove from main image ===*/
+		function removeMainImg(){
+			var arrylist = selectCandy.length;
+			candyListLimit
+			for(var i = 0; i < candyListLimit; i++){
+				if(i < selectCandy.length){
+
+				} else {
+					$(".custom-add-box li").each(function(index, element){ 
+						if(index == i){ 
+							console.log("working left show", index);
+							$(this).addClass("hide-img"); 
+						}
+					});
+				}
+			}
+		}
+
+  /*===  removeCandy click listener -   ===*/
+		$("#selected-licorice a.remove-item").on("click", function(){      
+			var candyNanme = $(this).parent().parent().find('.products-custom-text').text().trim();
+			onCandyRemove(candyNanme);   
+		});
+
+  /*===  adjustList Function - on size change hide element  ===*/
+		function adjustList(value){
+			candyListLimit = value;
+			$('#selected-licorice li').each(function(index, element){
+				if(value <= index){
+					$(this).addClass("hideSelection");
+				} else {
+					$(this).removeClass("hideSelection");
+				}
+			});
+			$('#custom-box li').each(function(index, element){
+				if(value <= index){
+					$(this).addClass("hideSelection");
+				} else {
+					$(this).removeClass("hideSelection");
+				}
+			});
+		}  
+		var $radios = $('input[name=Size]').change(function () {
+			var value = $radios.filter(':checked').val();    
+			adjustList(value);
+		});
+
+  /*=== scrollDownClick Function ===*/
+		function scrollDownClick(){
+			$('html,body').animate(
+				{ scrollTop: $(".custom-box-bottom").offset().top - 300},
+				'slow'
+			);    
+		}
+		$(".custom-add-box li").on("click", function(){
+			scrollDownClick();
+		});
+
+    var mainImagePhotos = document.getElementById('main-photos');
+
+    mainImagePhotos.style.cursor = 'pointer';
+    mainImagePhotos.onclick = function() {
+      scrollDownClick();
+    };
+
+  /*=== scrollUpClick Function ===*/
+		function scrollUpClick(){
+			$('html,body').animate(
+				{ scrollTop: $(".custom-box-top").offset().top},
+				'slow'
+			);    
+		}
+		$(".store-category-box .product-wrap").on("click", function(){
+			scrollUpClick();
+		});
+
+  /*===  addToCartCustom Function - feature to add to cart ===*/
+    function addToCartCustom(inputData){
+			jQuery.ajax({
+				type: 'POST',
+				url: '/cart/add.js',
+				data: inputData,
+				dataType: 'json',
+				success: function() { 
+					window.location.href = '/cart'; 
+				}
+			});
+			window.location = '/checkout';
+		};
+
+  /*===  Add To Cart Custom Listener ===*/
+		jQuery('.custom-add-to-cart').on('click', function(){ 
+			addToCartCustom(productObj);
+		});
+		
+		$("#product-option-links" ).change(function() {
+			var value =  $(this).val();
+
+			if ( $(this).val()  == "3 Choices"){
+				window.location.href = "https://licorice-shop.myshopify.com/collections/create-your-own-licorice-box/products/custom-box";
+			} else if ( $(this).val() == "6 Choices"){
+				window.location.href = "https://licorice-shop.myshopify.com/collections/create-your-own-licorice-box/products/create-your-own-6-tube-licorice-box";
+			} else if ( $(this).val() == "12 Choices"){
+				window.location.href ="https://licorice-shop.myshopify.com/collections/create-your-own-licorice-box/products/create-your-own-12-tube-licorice-box";
+			} 
+		});
+
+  
+
+</script>
