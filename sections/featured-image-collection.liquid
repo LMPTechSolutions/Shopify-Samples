@@ -1,6 +1,6 @@
 <script>
-// Product array
-  var productList = [];
+  // Product array
+    var productList = [];
 </script>
 
 <div id="CollectionSection-{{ section.id }}" class="featured-custom-collection">  
@@ -44,8 +44,7 @@
 				</div>
 			{% endfor %}
 		</div>
-	</div>
-	
+	</div>	
 </div>
 
 <style>
@@ -111,103 +110,95 @@
 </style>
 
 <script>
-$( document ).ready(function() {
-// Cart Queue Feature
-  Shopify.queue = [];
-  Shopify.moveAlong = function() {
-    if (Shopify.queue.length) {
-      var request = Shopify.queue.shift();
-      Shopify.addItem(request, Shopify.moveAlong);
-    } else {
-      document.location.href = '/cart';
-    }
-  };
-  Shopify.addItem = function(request, callback) {
-    var params = {
-      quantity: request.quantity,
-      id: request.id,
-    };
-    if(request.properties != false){
-      params.properties = request.properties;
-    }
-    console.log('params', params);
-    $.ajax({
-      type: 'POST',
-      url: '/cart/add.js',
-      dataType: 'json',
-      data: params,
-      success: function (textStatus, status) {
-        console.log(textStatus);
-        console.log(status)
-        callback();
-      },
-      error: function(xhr, textStatus, error) {
-        console.log(xhr.responseText);
-        console.log(xhr.statusText);
-        console.log(textStatus);
-        console.log(error);
+  $( document ).ready(function() {
+    // Cart Queue Feature
+      Shopify.queue = [];
+      Shopify.moveAlong = function() {
+        if (Shopify.queue.length) {
+          var request = Shopify.queue.shift();
+          Shopify.addItem(request, Shopify.moveAlong);
+        } else {
+          document.location.href = '/cart';
+        }
+      };
+      Shopify.addItem = function(request, callback) {
+        var params = {
+          quantity: request.quantity,
+          id: request.id,
+        };
+        if(request.properties != false){
+          params.properties = request.properties;
+        }
+        console.log('params', params);
+        $.ajax({
+          type: 'POST',
+          url: '/cart/add.js',
+          dataType: 'json',
+          data: params,
+          success: function (textStatus, status) {
+            console.log(textStatus);
+            console.log(status)
+            callback();
+          },
+          error: function(xhr, textStatus, error) {
+            console.log(xhr.responseText);
+            console.log(xhr.statusText);
+            console.log(textStatus);
+            console.log(error);
+          }
+        });
       }
-    });
-  }
 
 
 
-// Listeners
-  $('.product-option.product-1').on('click', function(){
-    productList[0] = $(this).attr('id');
-    console.log('list1', productList);
+    // Listeners
+      $('.product-option.product-1').on('click', function(){
+        productList[0] = $(this).attr('id');
+        console.log('list1', productList);
+      })
+        
+      $('.product-option.product-2').on('click', function(){
+        productList[1] = $(this).attr('id');
+        console.log('list2', productList);
+      })
 
-  })
-    
-  $('.product-option.product-2').on('click', function(){
-    productList[1] = $(this).attr('id');
-    console.log('list2', productList);
-  })
+      $('.product-option.product-3').on('click', function(){
+        productList[2] = $(this).attr('id');
+        console.log('list3', productList);
+      })
 
-  $('.product-option.product-3').on('click', function(){
-    productList[2] = $(this).attr('id');
-    console.log('list3', productList);
-  })
+      $('.product-option.product-4').on('click', function(){
+        productList[3] = $(this).attr('id');
+        console.log('list4', productList);
+      })
 
-  $('.product-option.product-4').on('click', function(){
-    productList[3] = $(this).attr('id');
-    console.log('list4', productList);
-  })
-
-  $(".bundle-add-to-cart").on('click', function(){  
-    var productListProcessed = [
-      {
-        quantity:1,
-        id: productList[0]
-      },
-      {
-        quantity:1,
-        id: productList[1]
-      },
-      {
-        quantity:1,
-        id: productList[2]
-      },
-      {
-        quantity:1,
-        id: productList[3]
-      }
-    ];
-    console.log("button");
-    
-    
-    productListProcessed.forEach(function(product){
-      Shopify.queue.push(product);    
-    });
-    
-    Shopify.moveAlong();  
-    
-
-  })
-
-});
+      $(".bundle-add-to-cart").on('click', function(){  
+        var productListProcessed = [
+          {
+            quantity:1,
+            id: productList[0]
+          },
+          {
+            quantity:1,
+            id: productList[1]
+          },
+          {
+            quantity:1,
+            id: productList[2]
+          },
+          {
+            quantity:1,
+            id: productList[3]
+          }
+        ];
+        
+        productListProcessed.forEach(function(product){
+          Shopify.queue.push(product);    
+        });
+        Shopify.moveAlong();  
+      })
+  });
 </script>
-
 
 {% schema %}
   {

@@ -34,26 +34,25 @@
 
 	{% assign index =  1  %}
 	<div>
-      {% if pretext != blank and combine_pretext == false %}
-      <span class=pretext>{{ pretext }}</span>
-      {% endif %}
-	  <ul class="tabs">
-	  	{% for head in tab_heads %}
-	  		<li><a href="#tab-{{- index -}}">{{ head }}</a></li>
-		 	{% assign index =  index | plus: 1  %}
-	  	{% endfor %}
-	  </ul>
-	  {% assign index =  1  %}
-	  {% for text in tab_texts %}
-	  	<div id="tab-{{- index -}}">{{ text }}</div>
-	 	{% assign index =  index | plus: 1  %}
-	  {% endfor %}
-  	</div>
+		{% if pretext != blank and combine_pretext == false %}
+		<span class=pretext>{{ pretext }}</span>
+		{% endif %}
+		<ul class="tabs">
+			{% for head in tab_heads %}
+				<li><a href="#tab-{{- index -}}">{{ head }}</a></li>
+			{% assign index =  index | plus: 1  %}
+			{% endfor %}
+		</ul>
+		{% assign index =  1  %}
+		{% for text in tab_texts %}
+			<div id="tab-{{- index -}}">{{ text }}</div>
+			{% assign index =  index | plus: 1  %}
+		{% endfor %}
+	</div>
 	
- <script>
-   document.addEventListener( 'DOMContentLoaded', function () {
-   
-   }, false );
+  <script>
+   document.addEventListener( 'DOMContentLoaded', function () {		 
+	 }, false );
       $('ul.tabs').each(function(){
       var active, content, links = $(this).find('a');
       active = links.first().addClass('active');
@@ -71,10 +70,7 @@
         return false;
       });
     });
- </script>
- <style>
- </style>
-
+  </script>
 {% else %}
 	{{ description }}
 {% endif %}
