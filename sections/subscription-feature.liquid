@@ -1,0 +1,651 @@
+
+<div id="subscription-area"></div>
+
+<style>  
+  .hide-step{
+    display:none;
+  }
+  .show-step{
+    display:block;
+    opacity: 1;
+  }
+  #subscription-area {
+    text-align: center;
+    min-height: 350px;
+  }
+  label:hover {
+    text-decoration: underline;
+  }
+  input:checked + label {
+    text-decoration: underline;
+  }
+</style>
+
+<script>
+  /* ======== Objects ======== */
+		let selectedData = {};
+		let productData = {
+			id: 'Update',
+			quantity: 1, 
+      frequency_num: 2, // 2,4
+      frequency_type: 2, // 2,4
+			frequency_type_text: "Week(s)", 
+      group_id: 151921,
+      price: "$123.00",
+      image: "https://cdn.shopify.com/s/files/1/0029/0842/2256/files/step2-1_238f1868-c4c8-4140-aa9a-55614c821576_1024x.png?v=1627233241"
+		};
+    let stepArray = [
+      `<div class="step step-packs step-vip package-type">
+        <h2>SELECT YOUR PACKAGE</h2><br>
+        <div>     
+          <input id="package-packs" type="radio" name="package-type" value="Packs" />
+          <label class="package-packs-label" for="package-packs">
+            <img src="{{ section.settings.step_1_image_1 | img_url: '1024x' }}" alt="" /> 
+            <h3 class="h3">Packs</h3>
+          </label>        
+          <input id="package-vip" type="radio" name="package-type" value="VIP" />
+          <label class="package-vip-label" for="package-vip">            
+            <img src="{{ section.settings.step_1_image_2 | img_url: '1024x' }}" alt="" />
+            <h3 class="h3">VIP</h3>
+          </label>        
+        </div>
+      </div>`,
+      `<div class="step step-packs step-vip coffee-type-step">
+        <h2>COFFEE TYPE</h2> <br>
+        <div>
+          <input id="type-ground" type="radio" name="coffee-type" value="Ground" autofocus/>
+          <label class="coffee-type" for="type-ground">
+            <img src="{{ section.settings.step_2_image_1 | img_url: '1024x' }}" alt="" />
+            <h3 class="h3">Ground</h3>
+          </label>         
+          <input id="type-wholebean" type="radio" name="coffee-type" value="Wholebean" />
+          <label class="coffee-type" for="type-wholebean">
+            <img src="{{ section.settings.step_2_image_2 | img_url: '1024x' }}" alt="" />
+            <h3 class="h3">Wholebean</h3>
+          </label>     
+        </div>  <br>
+        <button id="reset-steps" class="btn--inverse"> Start Over</button>        
+      </div>`,
+      `<div class="step step-packs bags-step">
+        <h2>How Many Bags</h2>  <br>     
+        <div>
+          <input id="type-bags-1" type="radio" name="pack-bags" value="1 Bag" />
+          <label class="bags-amount" for="type-bags-1">
+            <h3 class="h3">1 Bag</h3>
+          </label>
+          <input id="type-bags-2" type="radio" name="pack-bags" value="2 Bags" />
+          <label class="bags-amount" for="type-bags-2">
+            <h3 class="h3">2 Bags</h3>
+          </label>
+          <input id="type-bags-3" type="radio" name="pack-bags" value="3 Bags" />
+          <label class="bags-amount" for="type-bags-3">
+            <h3 class="h3">3 Bags</h3>
+          </label>
+          <input id="type-bags-4" type="radio" name="pack-bags" value="4 Bags" />
+          <label class="bags-amount" for="type-bags-4">
+            <h3 class="h3">4 Bags</h3>
+          </label>
+        </div><br>
+        <button id="reset-steps" class="btn--inverse"> Start Over</button>
+      </div>`,
+      `<div class="step step-packs roast-step">
+        <h2>Roast</h2>  <br>     
+        <div>
+          <input id="type-roast-1" type="radio" name="pack-roast" value="Light" />
+          <label class="roast-type" for="type-roast-1">
+            <h3 class="h3">Light to Medium</h3>
+          </label> 
+          <input id="type-roast-2" type="radio" name="pack-roast" value="Medium" />
+          <label class="roast-type" for="type-roast-2">
+            <h3 class="h3">Medium to Dark</h3>
+          </label> 
+          <input id="type-roast-3" type="radio" name="pack-roast" value="Any" />
+          <label class="roast-type" for="type-roast-3">
+            <h3 class="h3">Any Roast Level</h3>
+          </label>          
+        </div><br>
+        <button id="reset-steps" class="btn--inverse"> Start Over</button>
+      </div>`,
+      `<div class="step step-packs frequency-step">
+        <h2>Frequency</h2>  <br>
+        <div>
+          <input id="type-frequency-1" type="radio" name="pack-frequency" value="15" />
+          <label class="frequency-type" for="type-frequency-1">
+            <h3 class="h3">Bi Weekly</h3>
+          </label>
+          <input id="type-frequency-2" type="radio" name="pack-frequency" value="30" />
+          <label class="frequency-type" for="type-frequency-2">
+            <h3 class="h3">Monthly</h3>
+          </label>
+        </div><br>
+        <button id="reset-steps" class="btn--inverse"> Start Over</button>
+      </div> `,
+      `<div class="step sock-step step-vip">
+        <h2>Sock Size</h2> <br>     
+        <div>
+          <input id="type-sock-1" type="radio" name="vip-sock" value="Medium" />
+          <label class="sock-type" for="type-sock-1">
+            <h3 class="h3">Medium</h3>
+          </label>     
+          <input id="type-sock-2" type="radio" name="vip-sock" value="Large" />
+          <label class="sock-type" for="type-sock-2">
+            <h3 class="h3">Large</h3>
+          </label>
+          <input id="type-sock-3" type="radio" name="vip-sock" value="X-Large" />
+          <label class="sock-type" for="type-sock-3">
+            <h3 class="h3">X-Large</h3>
+          </label>     
+        </div><br>
+        <button id="reset-steps" class="btn--inverse"> Start Over</button>
+      </div>`,
+      `<div class="step shirt-step step-vip">
+        <h2>Shirt Size</h2> <br>  
+        <div>
+          <input id="type-shirt-1" type="radio" name="vip-shirt" value="Small" />
+          <label class="shirt-type" for="type-shirt-1">
+            <h3 class="h3">Small</h3>
+          </label>
+          <input id="type-shirt-2" type="radio" name="vip-shirt" value="Medium" />
+          <label class="shirt-type" for="type-shirt-2">
+            <h3 class="h3">Medium</h3>
+          </label> 
+          <input id="type-shirt-3" type="radio" name="vip-shirt" value="Large" />
+          <label class="shirt-type" for="type-shirt-3">
+            <h3 class="h3">Large</h3>
+          </label> 
+          <input id="type-shirt-4" type="radio" name="vip-shirt" value="X-Large" />
+          <label class="shirt-type" for="type-shirt-4">
+            <h3 class="h3">X-Large</h3>
+          </label> 
+          <input id="type-shirt-5" type="radio" name="vip-shirt" value="2X-Large" />
+          <label class="shirt-type" for="type-shirt-5">
+            <h3 class="h3">2X-Large</h3>
+          </label> 
+          <input id="type-shirt-6" type="radio" name="vip-shirt" value="3X-Large" />
+          <label class="shirt-type" for="type-shirt-6">
+            <h3 class="h3">3X-Large</h3>
+          </label>           
+        </div><br>
+        <button id="reset-steps" class="btn--inverse"> Start Over</button>
+      </div>`
+    ];
+    let stateObj = {
+      step: 1, // 1,2,3,4,5,6,7
+      package: "Packs" // Packs, VIP
+    };
+    let productListObj = []; 
+    let productObjNew = {};
+
+  /* ======== Functions ======== */
+		function DataReport(){		
+			console.log("Data Report");
+			console.log("----------------------");
+			console.log("Stored Object: ", productData);
+			console.log("Selected Object: ", selectedData);
+      console.log("Step Object: ", stepArray);
+			console.log("Collection Object: ", productListObj);
+			console.log("____________________");		
+	  };
+    function CustomReport(value){		
+			console.log("Custom Report");
+			console.log("----------------------");
+      console.log("Custom Data", value);
+			console.log("____________________");		
+		};
+		function addItemToCart (productData) {
+      // Bold Notes: https://docs.boldapps.net/subscriptions/storefront/index.html#custom-subscription-flow
+
+			data = {
+				"quantity": productData.quantity,
+				"id": productData.id,
+        "properties": {
+          "group_id": 151921,
+          "frequency_num": productData.frequency_num,
+          "frequency_type": 2,
+          "frequency_type_text": "Week(s)"
+        }
+			}
+      CustomReport(data);
+      /*
+			jQuery.ajax({
+				type: 'POST',
+				url: '/cart/add',
+				data: data,
+				dataType: 'json',
+        error: function (request, error) {
+          console.log(arguments);
+          alert(" Can't do because: " + error);
+        },
+				success: function() { 
+					window.location.href = '/cart'; 
+				}
+			});
+      */
+			//window.location = '/checkout';
+		}; 
+    function startOver(){
+      // clear steps
+      jQuery("#subscription-area .step").hide();
+
+      // clear objects
+      productData = {
+        quantity: 1
+      };
+      selectedData = {};
+      stateObj = {
+        step: 1
+      };
+
+      // add fist step      
+      jQuery(stepArray[0]).appendTo("#subscription-area");
+
+      // Run Report
+      DataReport();
+    }
+
+
+  /* ======== Listener ======== */
+    $(document).on('click', 'input', function() {
+      /* == Set Variable == */
+        var val = jQuery(this).attr("value");
+				var key = jQuery(this).attr("name");
+				selectedData[key] = val; 
+
+        stepArray[7] = `
+          <div class="step step-packs">  
+            <h2>Subscription Package</h2>  <br><br> 
+            <div class="final-step-area"> 
+              <img src="${productData.image}" alt="" />            
+              <div class="step-report">         
+                <div class="step-report-1">Package Type: <strong>${selectedData["package-type"]}</strong></div> 
+                <div class="step-report-1">Coffee Type: <strong>${selectedData["coffee-type"]}</strong></div>    
+                <div class="step-report-2 type-packs">Bags: <strong>${selectedData["pack-bags"]}</strong></div>    
+                <div class="step-report-3 type-packs">Roast: <strong>${selectedData["pack-roast"]}</strong></div>    
+                <div class="step-report-4 type-packs">Frequency: <strong>Every ${selectedData["pack-frequency"]} Days</strong></div>    
+                <div class="step-report-5 type-vip">Sock Size: <strong>${selectedData["vip-sock"]}</strong></div>    
+                <div class="step-report-6 type-vip">Shirt Size: <strong> ${selectedData["vip-shirt"]} </strong></div>
+                <div class="step-report-7">Price: <strong> ${productData.price} </strong></div>
+              </div> 
+            </div><br>
+            <button id="sub-add-to-cart" class="btn" > Add to Cart </button> <br> <br>
+            <button id="reset-steps" class="btn--inverse"> Start Over</button>
+          </div> `;
+
+      /* == Next Step Feature == */
+        // Clear Steps 
+
+        console.log("productData", productData);
+         DataReport();
+
+
+        jQuery("#subscription-area .step").hide();
+
+        // Add Next Step
+        if ( selectedData["package-type"] === "VIP" ) {        
+          switch (stateObj.step) {
+            case 1:
+              jQuery(stepArray[1]).appendTo("#subscription-area");
+              break;
+            case 2:
+              jQuery(stepArray[5]).appendTo("#subscription-area");
+              break;
+            case 3:
+              jQuery(stepArray[6]).appendTo("#subscription-area");
+              break;
+            case 4:
+              jQuery(stepArray[7]).appendTo("#subscription-area");
+
+              break;
+          };
+          jQuery(".type-vip").show();
+          jQuery(".type-packs").hide();
+        };
+        
+        if ( selectedData["package-type"] === "Packs" ){
+          switch (stateObj.step) {
+            case 1:
+              jQuery(stepArray[1]).appendTo("#subscription-area");
+              break;
+            case 2:
+              jQuery(stepArray[2]).appendTo("#subscription-area");
+              break;
+            case 3:
+              jQuery(stepArray[3]).appendTo("#subscription-area");
+              break;
+            case 4:
+              jQuery(stepArray[4]).appendTo("#subscription-area");
+              break;
+            case 5:
+              jQuery(stepArray[7]).appendTo("#subscription-area");
+              break;
+          };
+          jQuery(".type-packs").show();
+          jQuery(".type-vip").hide();
+        };
+
+        if (stateObj.step < 5) stateObj.step ++;
+
+     
+            
+			/* == Adjust Product Object == */        
+        // Packs Package 
+        if(selectedData["package-type"] === "Packs"){         
+
+          if( selectedData["coffee-type"] === "Ground" && selectedData["pack-roast"] === "Light" && selectedData["pack-bags"] === "1 Bag"  ){
+            productData.id = "32177503305822";
+          }
+          if( selectedData["coffee-type"] === "Ground" && selectedData["pack-roast"] === "Medium" && selectedData["pack-bags"] === "1 Bag"  ){
+            productData.id = "32177503371358";
+          }
+          if( selectedData["coffee-type"] === "Ground" && selectedData["pack-roast"] === "Any" && selectedData["pack-bags"] === "1 Bag"  ){
+            productData.id = "32177503436894";
+          }
+
+          if( selectedData["coffee-type"] === "Ground" && selectedData["pack-roast"] === "Light" && selectedData["pack-bags"] === "2 Bags"  ){
+            productData.id = "32177511268446";
+          }
+          if( selectedData["coffee-type"] === "Ground" && selectedData["pack-roast"] === "Medium" && selectedData["pack-bags"] === "2 Bags"  ){
+            productData.id = "32177511333982";
+          }
+          if( selectedData["coffee-type"] === "Ground" && selectedData["pack-roast"] === "Any" && selectedData["pack-bags"] === "2 Bags"  ){
+            productData.id = "32177511399518";
+          }
+
+          if( selectedData["coffee-type"] === "Ground" && selectedData["pack-roast"] === "Light" && selectedData["pack-bags"] === "3 Bags"  ){
+            productData.id = "32177514807390";
+          }
+          if( selectedData["coffee-type"] === "Ground" && selectedData["pack-roast"] === "Medium" && selectedData["pack-bags"] === "3 Bags"  ){
+            productData.id = "32177514872926";
+          }
+          if( selectedData["coffee-type"] === "Ground" && selectedData["pack-roast"] === "Any" && selectedData["pack-bags"] === "3 Bags"  ){
+            productData.id = "32177514938462";
+          }
+
+          if( selectedData["coffee-type"] === "Ground" && selectedData["pack-roast"] === "Light" && selectedData["pack-bags"] === "4 Bags"  ){
+            productData.id = "32177518116958";
+          }
+          if( selectedData["coffee-type"] === "Ground" && selectedData["pack-roast"] === "Medium" && selectedData["pack-bags"] === "4 Bags"  ){
+            productData.id = "32177518182494";
+          }
+          if( selectedData["coffee-type"] === "Ground" && selectedData["pack-roast"] === "Any" && selectedData["pack-bags"] === "4 Bags"  ){
+            productData.id = "32177518248030";
+          }
+
+          if( selectedData["coffee-type"] === "Wholebean" && selectedData["pack-roast"] === "Light" && selectedData["pack-bags"] === "1 Bag"  ){
+            productData.id = "32177503273054";
+          }
+          if( selectedData["coffee-type"] === "Wholebean" && selectedData["pack-roast"] === "Medium" && selectedData["pack-bags"] === "1 Bag"  ){
+            productData.id = "32177503338590";
+          }
+          if( selectedData["coffee-type"] === "Wholebean" && selectedData["pack-roast"] === "Any" && selectedData["pack-bags"] === "1 Bag"  ){
+            productData.id = "32177503404126";
+          }
+
+          if( selectedData["coffee-type"] === "Wholebean" && selectedData["pack-roast"] === "Light" && selectedData["pack-bags"] === "2 Bags"  ){
+            productData.id = "32177511235678";
+          }
+          if( selectedData["coffee-type"] === "Wholebean" && selectedData["pack-roast"] === "Medium" && selectedData["pack-bags"] === "2 Bags"  ){
+            productData.id = "32177511301214";
+          }
+          if( selectedData["coffee-type"] === "Wholebean" && selectedData["pack-roast"] === "Any" && selectedData["pack-bags"] === "2 Bags"  ){
+            productData.id = "32177511366750";
+          }
+
+          if( selectedData["coffee-type"] === "Wholebean" && selectedData["pack-roast"] === "Light" && selectedData["pack-bags"] === "3 Bags"  ){
+            productData.id = "32177514774622";
+          }
+          if( selectedData["coffee-type"] === "Wholebean" && selectedData["pack-roast"] === "Medium" && selectedData["pack-bags"] === "3 Bags"  ){
+            productData.id = "32177514840158";
+          }
+          if( selectedData["coffee-type"] === "Wholebean" && selectedData["pack-roast"] === "Any" && selectedData["pack-bags"] === "3 Bags"  ){
+            productData.id = "32177514905694";
+          }
+
+          if( selectedData["coffee-type"] === "Wholebean" && selectedData["pack-roast"] === "Light" && selectedData["pack-bags"] === "4 Bags"  ){
+            productData.id = "32177518084190";
+          }
+          if( selectedData["coffee-type"] === "Wholebean" && selectedData["pack-roast"] === "Medium" && selectedData["pack-bags"] === "4 Bags"  ){
+            productData.id = "32177518149726";
+          }
+          if( selectedData["coffee-type"] === "Wholebean" && selectedData["pack-roast"] === "Any" && selectedData["pack-bags"] === "4 Bags"  ){
+            productData.id = "32177518215262";
+          }
+
+          if (selectedData["pack-frequency"] = "15"){
+            productData.frequency_num = 2;
+          } else {
+            productData.frequency_num = 4;
+          }
+        }
+
+        if( selectedData["pack-bags"] === "1 Bag"  ){
+          for (const product of productListObj) { 
+            if ( product.title === "1 Bagger" ) {
+              productData.price = product.price;
+              productData.image = product.image;
+            }
+          };
+        }
+        if( selectedData["pack-bags"] === "2 Bags"  ){
+          for (const product of productListObj) { 
+            if ( product.title === "2 Bagger" ) {
+              productData.price = product.price;
+              productData.image = product.image;
+            }
+          };
+        }
+        if( selectedData["pack-bags"] === "3 Bags"  ){
+          for (const product of productListObj) { 
+            if ( product.title === "3 Bagger" ) {
+              productData.price = product.price;
+              productData.image = product.image;
+            }
+          };
+        }
+        if( selectedData["pack-bags"] === "4 Bags"  ){
+          for (const product of productListObj) { 
+            if ( product.title === "4 Bagger" ) {
+              productData.price = product.price;
+              productData.image = product.image;
+            }
+          };
+        }
+        
+
+        // VIP Package 
+        if (selectedData["package-type"] === "VIP") {
+          for (const product of productListObj) { 
+            if ( product.title === "Caffeine Coalition VIP Box" ) {
+              productData.price = product.price;
+              productData.image = product.image;
+            }
+          };
+          if( selectedData["coffee-type"] === "Ground" && selectedData["vip-shirt"] === "Small" && selectedData["vip-sock"] === "Medium"  ){
+            productData.id = "32271481700446";
+          }
+          if( selectedData["coffee-type"] === "Ground" && selectedData["vip-shirt"] === "Small" && selectedData["vip-sock"] === "Large"  ){
+            productData.id = "32271481897054";
+          }
+          if( selectedData["coffee-type"] === "Ground" && selectedData["vip-shirt"] === "Small" && selectedData["vip-sock"] === "X-Large"  ){
+            productData.id = "32271482093662";
+          }
+
+          if( selectedData["coffee-type"] === "Ground" && selectedData["vip-shirt"] === "Medium" && selectedData["vip-sock"] === "Medium"  ){
+            productData.id = "32271481733214";
+          }
+          if( selectedData["coffee-type"] === "Ground" && selectedData["vip-shirt"] === "Medium" && selectedData["vip-sock"] === "Large"  ){
+            productData.id = "32271481929822";
+          }
+          if( selectedData["coffee-type"] === "Ground" && selectedData["vip-shirt"] === "Medium" && selectedData["vip-sock"] === "X-Large"  ){
+            productData.id = "32271482126430";
+          }
+          
+          if( selectedData["coffee-type"] === "Ground" && selectedData["vip-shirt"] === "Large" && selectedData["vip-sock"] === "Medium"  ){
+            productData.id = "32271481765982";
+          }
+          if( selectedData["coffee-type"] === "Ground" && selectedData["vip-shirt"] === "Large" && selectedData["vip-sock"] === "Large"  ){
+            productData.id = "32271481962590";
+          }
+          if( selectedData["coffee-type"] === "Ground" && selectedData["vip-shirt"] === "Large" && selectedData["vip-sock"] === "X-Large"  ){
+            productData.id = "32271482159198";
+          }
+
+          if( selectedData["coffee-type"] === "Ground" && selectedData["vip-shirt"] === "X-Large" && selectedData["vip-sock"] === "Medium"  ){
+            productData.id = "32271481798750";
+          }
+          if( selectedData["coffee-type"] === "Ground" && selectedData["vip-shirt"] === "X-Large" && selectedData["vip-sock"] === "Large"  ){
+            productData.id = "32271481995358";
+          }
+          if( selectedData["coffee-type"] === "Ground" && selectedData["vip-shirt"] === "X-Large" && selectedData["vip-sock"] === "X-Large"  ){
+            productData.id = "32271482191966";
+          }
+
+          if( selectedData["coffee-type"] === "Ground" && selectedData["vip-shirt"] === "2X-Large" && selectedData["vip-sock"] === "Medium"  ){
+            productData.id = "32271481831518";
+          }
+          if( selectedData["coffee-type"] === "Ground" && selectedData["vip-shirt"] === "2X-Large" && selectedData["vip-sock"] === "Large"  ){
+            productData.id = "32271482028126";
+          }
+          if( selectedData["coffee-type"] === "Ground" && selectedData["vip-shirt"] === "2X-Large" && selectedData["vip-sock"] === "X-Large"  ){
+            productData.id = "32271482224734";
+          }
+
+          if( selectedData["coffee-type"] === "Ground" && selectedData["vip-shirt"] === "3X-Large" && selectedData["vip-sock"] === "Medium"  ){
+            productData.id = "32271481864286";
+          }
+          if( selectedData["coffee-type"] === "Ground" && selectedData["vip-shirt"] === "3X-Large" && selectedData["vip-sock"] === "Large"  ){
+            productData.id = "32271482060894";
+          }
+          if( selectedData["coffee-type"] === "Ground" && selectedData["vip-shirt"] === "3X-Large" && selectedData["vip-sock"] === "X-Large"  ){
+            productData.id = "32271482257502";
+          }
+
+          if( selectedData["coffee-type"] === "Wholebean" && selectedData["vip-shirt"] === "Small" && selectedData["vip-sock"] === "Medium"  ){
+            productData.id = "32271481110622";
+          }
+          if( selectedData["coffee-type"] === "Wholebean" && selectedData["vip-shirt"] === "Small" && selectedData["vip-sock"] === "Large"  ){
+            productData.id = "32271481307230";
+          }
+          if( selectedData["coffee-type"] === "Wholebean" && selectedData["vip-shirt"] === "Small" && selectedData["vip-sock"] === "X-Large"  ){
+            productData.id = "32271481503838";
+          }
+
+          if( selectedData["coffee-type"] === "Wholebean" && selectedData["vip-shirt"] === "Medium" && selectedData["vip-sock"] === "Medium"  ){
+            productData.id = "32271481143390";
+          }
+          if( selectedData["coffee-type"] === "Wholebean" && selectedData["vip-shirt"] === "Medium" && selectedData["vip-sock"] === "Large"  ){
+            productData.id = "32271481339998";
+          }
+          if( selectedData["coffee-type"] === "Wholebean" && selectedData["vip-shirt"] === "Medium" && selectedData["vip-sock"] === "X-Large"  ){
+            productData.id = "32271481536606";
+          }
+          
+          if( selectedData["coffee-type"] === "Wholebean" && selectedData["vip-shirt"] === "Large" && selectedData["vip-sock"] === "Medium"  ){
+            productData.id = "32271481176158";
+          }
+          if( selectedData["coffee-type"] === "Wholebean" && selectedData["vip-shirt"] === "Large" && selectedData["vip-sock"] === "Large"  ){
+            productData.id = "32271481372766";
+          }
+          if( selectedData["coffee-type"] === "Wholebean" && selectedData["vip-shirt"] === "Large" && selectedData["vip-sock"] === "X-Large"  ){
+            productData.id = "32271481569374";
+          }
+
+          if( selectedData["coffee-type"] === "Wholebean" && selectedData["vip-shirt"] === "X-Large" && selectedData["vip-sock"] === "Medium"  ){
+            productData.id = "32271481208926";
+          }
+          if( selectedData["coffee-type"] === "Wholebean" && selectedData["vip-shirt"] === "X-Large" && selectedData["vip-sock"] === "Large"  ){
+            productData.id = "32271481405534";
+          }
+          if( selectedData["coffee-type"] === "Wholebean" && selectedData["vip-shirt"] === "X-Large" && selectedData["vip-sock"] === "X-Large"  ){
+            productData.id = "32271481602142";
+          }
+
+          if( selectedData["coffee-type"] === "Wholebean" && selectedData["vip-shirt"] === "2X-Large" && selectedData["vip-sock"] === "Medium"  ){
+            productData.id = "32271481241694";
+          }
+          if( selectedData["coffee-type"] === "Wholebean" && selectedData["vip-shirt"] === "2X-Large" && selectedData["vip-sock"] === "Large"  ){
+            productData.id = "32271481438302";
+          }
+          if( selectedData["coffee-type"] === "Wholebean" && selectedData["vip-shirt"] === "2X-Large" && selectedData["vip-sock"] === "X-Large"  ){
+            productData.id = "32271481634910";
+          }
+
+          if( selectedData["coffee-type"] === "Wholebean" && selectedData["vip-shirt"] === "3X-Large" && selectedData["vip-sock"] === "Medium"  ){
+            productData.id = "32271481274462";
+          }
+          if( selectedData["coffee-type"] === "Wholebean" && selectedData["vip-shirt"] === "3X-Large" && selectedData["vip-sock"] === "Large"  ){
+            productData.id = "32271481471070";
+          }
+          if( selectedData["coffee-type"] === "Wholebean" && selectedData["vip-shirt"] === "3X-Large" && selectedData["vip-sock"] === "X-Large"  ){
+            productData.id = "32271481667678";
+          }
+
+          productData.frequency_type = 4;
+        }
+
+			/* == Run Script Report == */
+		  // DataReport();
+
+			
+		});
+
+    $(document).on('click', '#sub-add-to-cart', function(){
+      addItemToCart(productData);
+    });   
+
+    $(document).on('click', '#reset-steps', function(){
+      startOver();
+    });  
+
+  /* ======== On Load ======== */  
+    jQuery(stepArray[0]).appendTo("#subscription-area");    
+    {% for product in collections['subscription'].products %}
+      productObjNew = {
+        title: "{{ product.title | escape  }}",
+        price: "{{ product.price | money }}",
+        image: "{{ product | img_url: '1024x' }}"
+      };
+      // CustomReport(productObjNew);
+      productListObj.push(productObjNew);
+    {% endfor %}
+
+    DataReport();
+
+</script>
+
+
+{% schema %}
+  {
+    "name": "Subscription Area",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Step 1"
+      },               
+      {
+        "type": "image_picker",
+        "id": "step_1_image_1",
+        "label": "Step 1: Image #1"
+      },                   
+      {
+        "type": "image_picker",
+        "id": "step_1_image_2",
+        "label": "Step 1: Image #2"
+      },
+      {
+        "type": "header",
+        "content": "Step 2"
+      },                  
+      {
+        "type": "image_picker",
+        "id": "step_2_image_1",
+        "label": "Step 2: Image #1"
+      },                  
+      {
+        "type": "image_picker",
+        "id": "step_2_image_2",
+        "label": "Step 2: Image #2"
+      }
+    ]
+  }
+{% endschema %}
